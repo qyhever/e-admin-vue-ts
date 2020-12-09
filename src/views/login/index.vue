@@ -33,19 +33,30 @@
         </a-form>
       </div>
     </a-row>
-    <div class="login-footer"></div>
-    <!-- <FooterBar class="login-footer"></FooterBar> -->
+    <FooterBar class="login-footer"></FooterBar>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { mapGetters } from 'vuex'
+import { login } from './service'
+import {
+  getRememberUser,
+  setRememberUser,
+  removeRememberUser,
+  setToken
+} from '@/utils/local'
+import FooterBar from '@/components/footerbar/index.vue'
 type LoginFormType = {
-  email: string;
-  password: string;
-  remember: boolean;
+  email: string
+  password: string
+  remember: boolean
 }
 export default defineComponent({
+  components: {
+    FooterBar
+  },
   data() {
     return {
       form: {
@@ -61,8 +72,7 @@ export default defineComponent({
         password: [
           { required: true, message: '请输入密码!', trigger: 'blur' }
         ]
-      },
-      loading: false
+      }
     }
   },
   setup() {
@@ -71,9 +81,37 @@ export default defineComponent({
       count
     }
   },
+  computed: {
+    ...mapGetters(['loading'])
+  },
+  mounted() {
+    const rememberUser = getRememberUser()
+    if (rememberUser) {
+      this.form = rememberUser
+    }
+  },
   methods: {
-    handleFinish(values: LoginFormType) {
-      console.log(values)
+    async handleFinish(values: LoginFormType) {
+      if (values.remember) {
+        setRememberUser(values)
+      } else {
+        removeRememberUser()
+      }
+      const params = {
+        email: values.email,
+        // password: md5(md5(values.password))
+        password: values.password
+      }
+      try {
+        const token = await login(params)
+        setToken(token) // save local
+        await this.$store.dispatch('user/GetUserData')
+        this.$router.push('/')
+        this.$message.destroy()
+        this.$message.success('登录成功')
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 })

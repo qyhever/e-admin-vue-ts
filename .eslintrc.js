@@ -80,6 +80,24 @@ module.exports = {
     /**
      * vue
      */
-    'vue/valid-v-model': 0
+    'vue/valid-v-model': 0,
+
+    /**
+     * typescript
+     * https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin/docs/rules
+     */
+    '@typescript-eslint/member-delimiter-style': [
+      2,
+      {
+        multiline: {
+          delimiter: 'none',
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        }
+      }
+    ]
   }
 }

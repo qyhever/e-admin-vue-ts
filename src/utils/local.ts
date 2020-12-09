@@ -43,7 +43,7 @@ export const setCollapse = (value: boolean) => {
   return localStorage.setItem(COLLAPSE, String(value))
 }
 export const getCollapse = () => {
-  return JSON.parse(localStorage.getItem(COLLAPSE) || '"null"')
+  return JSON.parse(localStorage.getItem(COLLAPSE) || 'null')
 }
 
 export const setRememberUser = (data: object) => {
@@ -64,7 +64,7 @@ export const setTagNav = (data: object) => {
 
 export const getTagNav = () => {
   try {
-    const data = localStorage.getItem(TAG_NAV) || '"null"'
+    const data = localStorage.getItem(TAG_NAV) || 'null'
     return JSON.parse(data)
   } catch (err) {
     console.log(err)
@@ -82,7 +82,7 @@ export const setAccessMenus = (data: any[]) => {
 
 export const getAccessMenus = () => {
   try {
-    const data = localStorage.getItem(ACCESS_MENU) || '"null"'
+    const data = localStorage.getItem(ACCESS_MENU) || 'null'
     return JSON.parse(data)
   } catch (err) {
     console.log(err)
@@ -100,7 +100,7 @@ export const setUserInfo = (data: object) => {
 
 export const getUserInfo = () => {
   try {
-    const data = localStorage.getItem(USERINFO) || '"null"'
+    const data = localStorage.getItem(USERINFO) || 'null'
     return JSON.parse(data)
   } catch (err) {
     console.log(err)

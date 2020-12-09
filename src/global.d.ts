@@ -1,8 +1,14 @@
-
-declare module '@vue/runtime-core' {
+import { Store } from 'vuex'
+import { Message } from 'ant-design-vue/types/message'
+import { Modal } from 'ant-design-vue/types/modal'
+module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    a: any
+    $store: Store<any>
+    $message: Message
+    $info: Modal.info
+    $success: Modal.success
+    $error: Modal.error
+    $warning: Modal.warning
+    $confirm: Modal.confirm
   }
 }
-
-export {}
