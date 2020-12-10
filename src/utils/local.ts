@@ -1,4 +1,5 @@
 import { Base64 } from 'js-base64'
+import { AccessMenuItem } from '@/store/modules/user'
 
 const baseName = 'ant-simple-pro'
 const TOKEN = `${baseName}-token`
@@ -62,6 +63,10 @@ export const setTagNav = (data: object) => {
   return localStorage.setItem(TAG_NAV, JSON.stringify(data))
 }
 
+export const removeTagNav = () => {
+  return localStorage.removeItem(TAG_NAV)
+}
+
 export const getTagNav = () => {
   try {
     const data = localStorage.getItem(TAG_NAV) || 'null'
@@ -72,15 +77,15 @@ export const getTagNav = () => {
   }
 }
 
-export const removeTagNav = () => {
-  return localStorage.removeItem(TAG_NAV)
-}
-
-export const setAccessMenus = (data: any[]) => {
+export const setAccessMenus = (data: AccessMenuItem[]) => {
   return localStorage.setItem(ACCESS_MENU, JSON.stringify(data))
 }
 
-export const getAccessMenus = () => {
+export const removeAccessMenus = () => {
+  return localStorage.removeItem(ACCESS_MENU)
+}
+
+export const getAccessMenus = (): AccessMenuItem[] | null | undefined => {
   try {
     const data = localStorage.getItem(ACCESS_MENU) || 'null'
     return JSON.parse(data)
@@ -90,12 +95,12 @@ export const getAccessMenus = () => {
   }
 }
 
-export const removeAccessMenus = () => {
-  return localStorage.removeItem(ACCESS_MENU)
-}
-
 export const setUserInfo = (data: object) => {
   return localStorage.setItem(USERINFO, JSON.stringify(data))
+}
+
+export const removeUserInfo = () => {
+  return localStorage.removeItem(USERINFO)
 }
 
 export const getUserInfo = () => {
@@ -106,8 +111,4 @@ export const getUserInfo = () => {
     console.log(err)
     removeUserInfo()
   }
-}
-
-export const removeUserInfo = () => {
-  return localStorage.removeItem(USERINFO)
 }

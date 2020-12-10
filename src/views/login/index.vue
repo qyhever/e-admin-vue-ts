@@ -38,8 +38,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, toRefs, onMounted } from 'vue'
 import { mapGetters } from 'vuex'
+import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
+import { useStore } from '@/store'
 import { login } from './service'
 import {
   getRememberUser,
@@ -57,8 +60,26 @@ export default defineComponent({
   components: {
     FooterBar
   },
-  data() {
-    return {
+  // data() {
+  //   return {
+  //     form: {
+  //       email: '',
+  //       password: '',
+  //       remember: false
+  //     },
+  //     rules: {
+  //       email: [
+  //         { required: true, message: '请输入邮箱!', trigger: 'blur' },
+  //         { type: 'email', message: '邮箱格式不正确!', trigger: 'blur' }
+  //       ],
+  //       password: [
+  //         { required: true, message: '请输入密码!', trigger: 'blur' }
+  //       ]
+  //     }
+  //   }
+  // },
+  setup() {
+    const state = reactive({
       form: {
         email: '',
         password: '',
@@ -73,25 +94,16 @@ export default defineComponent({
           { required: true, message: '请输入密码!', trigger: 'blur' }
         ]
       }
-    }
-  },
-  setup() {
-    const count = ref(1)
-    return {
-      count
-    }
-  },
-  computed: {
-    ...mapGetters(['loading'])
-  },
-  mounted() {
-    const rememberUser = getRememberUser()
-    if (rememberUser) {
-      this.form = rememberUser
-    }
-  },
-  methods: {
-    async handleFinish(values: LoginFormType) {
+    })
+    onMounted(() => {
+      const rememberUser = getRememberUser()
+      if (rememberUser) {
+        state.form = rememberUser
+      }
+    })
+    const store = useStore()
+    const router = useRouter()
+    const handleFinish = async (values: LoginFormType) => {
       if (values.remember) {
         setRememberUser(values)
       } else {
@@ -105,15 +117,52 @@ export default defineComponent({
       try {
         const token = await login(params)
         setToken(token) // save local
-        await this.$store.dispatch('user/GetUserData')
-        this.$router.push('/')
-        this.$message.destroy()
-        this.$message.success('登录成功')
+        await store.dispatch('user/GetUserData')
+        router.push('/')
+        message.destroy()
+        message.success('登录成功')
       } catch (err) {
         console.log(err)
       }
     }
+    return {
+      ...toRefs(state),
+      handleFinish
+    }
+  },
+  computed: {
+    ...mapGetters(['loading'])
   }
+  // mounted() {
+  //   const rememberUser = getRememberUser()
+  //   if (rememberUser) {
+  //     this.form = rememberUser
+  //   }
+  // },
+  // methods: {
+  //   async handleFinish(values: LoginFormType) {
+  //     if (values.remember) {
+  //       setRememberUser(values)
+  //     } else {
+  //       removeRememberUser()
+  //     }
+  //     const params = {
+  //       email: values.email,
+  //       // password: md5(md5(values.password))
+  //       password: values.password
+  //     }
+  //     try {
+  //       const token = await login(params)
+  //       setToken(token) // save local
+  //       await this.$store.dispatch('user/GetUserData')
+  //       this.$router.push('/')
+  //       this.$message.destroy()
+  //       this.$message.success('登录成功')
+  //     } catch (err) {
+  //       console.log(err)
+  //     }
+  //   }
+  // }
 })
 </script>
 

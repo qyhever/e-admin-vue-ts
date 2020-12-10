@@ -5,8 +5,8 @@ import qs from 'qs'
  * 过滤空参数
  * @param {Object} params 参数对象
  */
-export const paramsSerializer = (params: Record<string, any>) => {
-  const data: Record<string, any> = {}
+export const paramsSerializer = (params: Record<string, unknown>) => {
+  const data: Record<string, unknown> = {}
   for (const k in params) {
     const value = params[k]
     if (value !== '' && value !== null && value !== undefined) {

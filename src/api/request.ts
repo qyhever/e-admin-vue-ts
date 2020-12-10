@@ -105,10 +105,10 @@ const requestThenEnd = (options: RequestThenEndType) => {
     return responseData.data
   }
   if (responseData.code === 202) {
-    store.dispatch('user/Logout').then(() => {
-      // this.$router.replace('/login')
-      location.reload(true)
-    })
+    // store.dispatch('user/Logout').then(() => {
+    //   // this.$router.replace('/login')
+    //   location.reload(true)
+    // })
   }
   // not success code
   if (showWarning) {
@@ -222,7 +222,7 @@ const request = (options: IAxiosRequest) => {
     errorMsg = '',
     ...config
   } = options
-  requestStart(options, loadingCb, showLoading)
+  requestStart(config, loadingCb, showLoading)
   return instance(config)
     .then(response => {
       return requestThenEnd({response, loadingCb, showLoading, showWarning, warningMsg, throwWarningError})

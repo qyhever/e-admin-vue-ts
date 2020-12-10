@@ -1,11 +1,12 @@
 import { Module } from 'vuex'
 import { getCollapse, setCollapse } from '@/utils/local'
 import { RootState } from '../index'
+import { RouteLocationNormalizedLoaded } from 'vue-router'
 
 export type AppState = {
   loading: boolean
   collapsed: boolean
-  tagNavList: any[]
+  tagNavList: RouteLocationNormalizedLoaded[]
 }
 
 export default {

@@ -12,18 +12,23 @@ import {
 } from '@/utils/local'
 import { RootState } from '../index'
 
+export type AccessMenuItem = {
+  id: number
+  title: string
+  icon: string
+  url: string
+  pid: number
+  createTime: number
+}
 export type UserState = {
   currentUser: object
-  resourceList: any[]
-  accessMenus: any[]
+  accessMenus: AccessMenuItem[]
 }
-
 export default {
   namespaced: true,
 
   state: {
     currentUser: getLocalUserInfo() || {},
-    resourceList: [],
     accessMenus: getLocalAccessMenus() || []
   },
 
@@ -31,9 +36,6 @@ export default {
     SET_USERINFO(state, data) {
       state.currentUser = data || {}
       setUserInfo(data)
-    },
-    SET_RESOURCE_LIST(state, data) {
-      state.resourceList = data
     },
     SET_ACCESS_MENUS(state, data) {
       state.accessMenus = data || []
@@ -61,7 +63,6 @@ export default {
       return new Promise((resolve) => {
         commit('SET_USERINFO', {})
         removeUserInfo()
-        // commit('SET_RESOURCE_LIST', [])
         commit('SET_ACCESS_MENUS', [])
         removeAccessMenus()
         removeToken()
@@ -70,4 +71,4 @@ export default {
       })
     }
   }
-}  as Module<UserState, RootState>
+} as Module<UserState, RootState>
