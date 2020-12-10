@@ -60,24 +60,6 @@ export default defineComponent({
   components: {
     FooterBar
   },
-  // data() {
-  //   return {
-  //     form: {
-  //       email: '',
-  //       password: '',
-  //       remember: false
-  //     },
-  //     rules: {
-  //       email: [
-  //         { required: true, message: '请输入邮箱!', trigger: 'blur' },
-  //         { type: 'email', message: '邮箱格式不正确!', trigger: 'blur' }
-  //       ],
-  //       password: [
-  //         { required: true, message: '请输入密码!', trigger: 'blur' }
-  //       ]
-  //     }
-  //   }
-  // },
   setup() {
     const state = reactive({
       form: {
@@ -133,36 +115,6 @@ export default defineComponent({
   computed: {
     ...mapGetters(['loading'])
   }
-  // mounted() {
-  //   const rememberUser = getRememberUser()
-  //   if (rememberUser) {
-  //     this.form = rememberUser
-  //   }
-  // },
-  // methods: {
-  //   async handleFinish(values: LoginFormType) {
-  //     if (values.remember) {
-  //       setRememberUser(values)
-  //     } else {
-  //       removeRememberUser()
-  //     }
-  //     const params = {
-  //       email: values.email,
-  //       // password: md5(md5(values.password))
-  //       password: values.password
-  //     }
-  //     try {
-  //       const token = await login(params)
-  //       setToken(token) // save local
-  //       await this.$store.dispatch('user/GetUserData')
-  //       this.$router.push('/')
-  //       this.$message.destroy()
-  //       this.$message.success('登录成功')
-  //     } catch (err) {
-  //       console.log(err)
-  //     }
-  //   }
-  // }
 })
 </script>
 

@@ -105,10 +105,10 @@ const requestThenEnd = (options: RequestThenEndType) => {
     return responseData.data
   }
   if (responseData.code === 202) {
-    // store.dispatch('user/Logout').then(() => {
-    //   // this.$router.replace('/login')
-    //   location.reload(true)
-    // })
+    store.dispatch('user/Logout').then(() => {
+      // this.$router.replace('/login')
+      location.reload(true)
+    })
   }
   // not success code
   if (showWarning) {
