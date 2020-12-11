@@ -19,6 +19,7 @@ export type AccessMenuItem = {
   url: string
   pid: number
   createTime: number
+  children?: AccessMenuItem[]
 }
 export type UserState = {
   currentUser: object

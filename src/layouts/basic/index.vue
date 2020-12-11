@@ -1,46 +1,38 @@
 <template>
   <section class="basic-layout header-fixed slidebar-fixed tag-fixed" :class="{mobile, collapsed}">
     <HeaderBar></HeaderBar>
-    <!-- <section class="layout-content">
+    <section class="layout-content">
       <SlideBar></SlideBar>
       <div class="layout-content__inner">
-        <TagsNav></TagsNav>
+        <!-- <TagsNav></TagsNav> -->
         <main class="main">
           <router-view/>
         </main>
         <FooterBar class="footer"></FooterBar>
       </div>
-    </section> -->
+    </section>
     <router-view/>
   </section>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue'
+import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
-import { useStore } from '@/store'
 import HeaderBar from './headerbar.vue'
-import { isMobile } from '@/utils/system'
+import SlideBar from './slidebar.vue'
+import FooterBar from '@/components/footerbar/index.vue'
+import useMobile from './useMobile'
 import './index.less'
+
 export default defineComponent({
   name: 'BasicLayout',
   components: {
-    HeaderBar
+    HeaderBar,
+    SlideBar,
+    FooterBar
   },
   setup() {
-    const mobile = ref(false)
-    const store = useStore()
-    const onResize = () => {
-      const val = isMobile()
-      mobile.value = val
-      store.commit('app/TOGGLE_SLIDE_BAR', val)
-    }
-    onMounted(() => {
-      window.addEventListener('resize', onResize)
-    })
-    onBeforeUnmount(() => {
-      window.removeEventListener('resize', onResize)
-    })
+    const mobile = useMobile()
     return {
       mobile
     }
