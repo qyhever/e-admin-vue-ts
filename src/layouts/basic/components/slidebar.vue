@@ -16,7 +16,7 @@
   </a-layout-sider>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
 import RouteMenu from './route-menu'
@@ -25,11 +25,6 @@ export default defineComponent({
   name: 'SlideBar',
   components: {
     RouteMenu
-  },
-  watch: {
-    openKeys(val, oldVal) {
-      this.preOpenKeys = oldVal
-    }
   },
   computed: {
     ...mapGetters(['collapsed', 'accessMenus'])

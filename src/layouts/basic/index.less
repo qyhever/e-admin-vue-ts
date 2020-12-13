@@ -19,7 +19,7 @@
     > .layout-content__inner {
       flex: auto;
       > .main {
-        min-height: calc(100vh - @header-height - 36px - 80px);
+        min-height: calc(100vh - @header-height - @tags-nav-header - 80px);
       }
       > .footer {
         padding: 15px 0;
@@ -75,7 +75,7 @@
       right: 0;
     }
     .layout-content__inner {
-      padding-top: 34px;
+      padding-top: @tags-nav-header;
     }
   }
   &.mobile {

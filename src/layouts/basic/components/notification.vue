@@ -64,12 +64,15 @@
   </a-dropdown>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
-import {
-  BellOutlined
-} from '@ant-design/icons-vue'
-const tab1Data = [
+import { BellOutlined } from '@ant-design/icons-vue'
+type TabDataItem = {
+  title: string
+  index: number
+  isRead: boolean
+}
+const tab1Data: TabDataItem[] = [
   {
     title: 'Ant Simple Pro 1',
     index: 0,
@@ -86,7 +89,7 @@ const tab1Data = [
     isRead: false
   }
 ]
-const tab2Data = [
+const tab2Data: TabDataItem[] = [
   {
     title: 'Ant Simple Pro 4',
     index: 0,
@@ -98,9 +101,15 @@ const tab2Data = [
     isRead: false
   }
 ]
+type DataType = {
+  tab1Data: TabDataItem[]
+  tab2Data: TabDataItem[]
+  visible: boolean
+  activeKey: string
+}
 export default defineComponent({
   components: {
-    BellOutlined
+    BellOutlined: BellOutlined as any
   },
   data() {
     return {
@@ -111,18 +120,18 @@ export default defineComponent({
     }
   },
   computed: {
-    unreadCount() {
+    unreadCount(): number {
       return this.noticeUnreadCount + this.newsUnreadCount
     },
-    noticeUnreadCount() {
+    noticeUnreadCount(): number {
       return this.tab1Data.filter(v => !v.isRead).length
     },
-    newsUnreadCount() {
+    newsUnreadCount(): number {
       return this.tab2Data.filter(v => !v.isRead).length
     }
   },
   methods: {
-    onRead(row) {
+    onRead(row: TabDataItem) {
       if (this.activeKey === '1') {
         this.tab1Data = this.tab1Data.map(item => {
           if (item.index === row.index) {

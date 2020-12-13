@@ -23,7 +23,7 @@ export type RootState = {
 
 // define customer `useStore` composition function
 export function useStore() {
-  return baseUseStore(key)
+  return baseUseStore()
 }
 
 export default store

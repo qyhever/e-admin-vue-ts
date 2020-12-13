@@ -4,22 +4,22 @@
     <section class="layout-content">
       <SlideBar></SlideBar>
       <div class="layout-content__inner">
-        <!-- <TagsNav></TagsNav> -->
+        <TagsNav></TagsNav>
         <main class="main">
           <router-view/>
         </main>
         <FooterBar class="footer"></FooterBar>
       </div>
     </section>
-    <router-view/>
   </section>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
-import HeaderBar from './headerbar.vue'
-import SlideBar from './slidebar.vue'
+import HeaderBar from './components/headerbar.vue'
+import SlideBar from './components/slidebar.vue'
+import TagsNav from './components/tags-nav.vue'
 import FooterBar from '@/components/footerbar/index.vue'
 import useMobile from './useMobile'
 import './index.less'
@@ -29,7 +29,8 @@ export default defineComponent({
   components: {
     HeaderBar,
     SlideBar,
-    FooterBar
+    FooterBar,
+    TagsNav
   },
   setup() {
     const mobile = useMobile()
