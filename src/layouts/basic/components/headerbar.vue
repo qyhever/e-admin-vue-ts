@@ -54,8 +54,8 @@ import Fullscreen from '@/components/fullscreen/index.vue'
 export default defineComponent({
   name: 'HeaderBar',
   components: {
-    UserOutlined: UserOutlined as any,
-    LogoutOutlined: LogoutOutlined as any,
+    UserOutlined,
+    LogoutOutlined,
     Notification,
     Fullscreen
   },
@@ -73,7 +73,7 @@ export default defineComponent({
       this.$confirm({
         title: '温馨提示',
         content: '确定要退出登录吗',
-        icon: createVNode(ExclamationCircleOutlined as any),
+        icon: createVNode(ExclamationCircleOutlined),
         onOk: () => {
           this.$store.dispatch('user/Logout').then(() => {
             // this.$router.replace('/login')

@@ -84,9 +84,9 @@ type GlobalizationDataType = {
 export default defineComponent({
   name: 'Globalization',
   components: {
-    StarOutlined: StarOutlined as any,
-    LikeOutlined: LikeOutlined as any,
-    MessageOutlined: MessageOutlined as any
+    StarOutlined,
+    LikeOutlined,
+    MessageOutlined
   },
   data(): GlobalizationDataType {
     return {
@@ -113,6 +113,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+  .com-page {
+    padding: 20px;
+  }
   .icon-logo {
     font-size: 30px;
   }

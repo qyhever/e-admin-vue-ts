@@ -1,4 +1,5 @@
 import { Store } from 'vuex'
+import { RouteLocationNormalizedLoaded, Router } from 'vue-router'
 import { Message } from 'ant-design-vue/types/message'
 import { Modal } from 'ant-design-vue/types/modal'
 import { VueI18n } from 'vue-i18n'
@@ -8,6 +9,8 @@ import { VueI18n } from 'vue-i18n'
 
 module '@vue/runtime-core' {
   interface ComponentCustomProperties {
+    $route: RouteLocationNormalizedLoaded
+    $router: Router
     $store: Store<any>
     $message: Message
     $info: Modal.info

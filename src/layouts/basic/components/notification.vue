@@ -109,7 +109,7 @@ type DataType = {
 }
 export default defineComponent({
   components: {
-    BellOutlined: BellOutlined as any
+    BellOutlined
   },
   data() {
     return {

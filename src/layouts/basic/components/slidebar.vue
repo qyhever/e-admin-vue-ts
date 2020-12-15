@@ -33,6 +33,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+  .slidebar {
+    padding-top: 5px;
+  }
   ::v-deep {
     .ant-menu-inline .ant-menu-item::after {
       right: 1px;
