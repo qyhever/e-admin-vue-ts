@@ -1,15 +1,77 @@
 <template>
-  <Scrollbar>
+  <Scrollbar
+    ref="scrollbarRef"
+    wrapClass="scrollbar__wrap"
+    viewClass="scrollbar__view"
+    class="scroll-container"
+  >
     <slot></slot>
   </Scrollbar>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, unref, nextTick } from 'vue';
+import { defineComponent, ref, unref, nextTick } from 'vue'
 import { Scrollbar, ScrollbarType } from '@/components/scrollbar'
+import { scrollTo as elScrollTo } from '@/utils/dom'
 export default defineComponent({
   components: {
     Scrollbar
+  },
+  setup() {
+    const scrollbarRef = ref<ScrollbarType | null>(null)
+
+    // 滚动到某个位置
+    function scrollTo(to: number, duration = 500) {
+      const scrollbar = unref(scrollbarRef)
+      if (!scrollbar) {
+        return
+      }
+      nextTick(() => {
+        const wrap = unref(scrollbar.wrap)
+        if (!wrap) {
+          return
+        }
+        elScrollTo({
+          el: wrap,
+          to
+        })
+      })
+    }
+
+    // 获取滚动容器
+    function getScrollWrap() {
+      const scrollbar = unref(scrollbarRef)
+      if (!scrollbar) {
+        return null
+      }
+      return scrollbar.wrap
+    }
+
+    // 滚动到底部
+    function scrollBottom() {
+      const scrollbar = unref(scrollbarRef)
+      if (!scrollbar) {
+        return
+      }
+      nextTick(() => {
+        const wrap = unref(scrollbar.wrap)
+        if (!wrap) {
+          return
+        }
+        const scrollHeight = wrap.scrollHeight
+        elScrollTo({
+          el: wrap,
+          to: scrollHeight
+        })
+      })
+    }
+
+    return {
+      scrollbarRef,
+      scrollTo,
+      getScrollWrap,
+      scrollBottom
+    }
   }
 })
 </script>
