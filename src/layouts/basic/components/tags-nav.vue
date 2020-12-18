@@ -1,20 +1,6 @@
 <template>
   <div class="tags-nav">
     <ScrollPane :horizontalBar="false" :verticalBar="false" ref="scrollPane">
-      <!-- <a-tag
-        v-for="(item, index) in tags"
-        :key="index"
-        class="nav-tag"
-        visible
-        :ref="setItemRef"
-        :data-route-item="item"
-        :color="isActive(item) ? 'blue' : ''"
-        :closable="!isAffix(item)"
-        @close="onDeleteTag(item)"
-        @click="onClickTag(item)"
-      >
-        {{item.meta && item.meta.title + (index + 1)}}
-      </a-tag> -->
       <div
         v-for="(item, index) in totalTags"
         :key="index"
@@ -50,7 +36,6 @@ export default defineComponent({
     CloseOutlined
   },
   setup() {
-    console.log('setup')
     const scrollPane = ref<ScrollActionType | null>(null)
     const tagRefs = ref<HTMLElement[]>([])
     const state = reactive<StateType>({
@@ -58,7 +43,6 @@ export default defineComponent({
     })
     const route = useRoute()
     watch(route, (newRoute) => {
-      console.log('watch', newRoute.path)
       addTag(newRoute) // eslint-disable-line
       moveToView(newRoute) // eslint-disable-line
     }, {
@@ -100,17 +84,19 @@ export default defineComponent({
       if (route.meta.affix) {
         return
       }
-      const current = state.tags.find(v => v.path === item.path)
-      console.log(current)
-      if (current) { // 存在替换
-        // state.tags.splice(currentIndex, 1, item)
-        state.tags = state.tags.map((v) => {
-          if (v.path === current.path) {
+      console.log(unref(state.tags))
+      const currentIndex = state.tags.findIndex(v => v.path === item.path)
+      console.log('currentIndex', currentIndex)
+      if (currentIndex >= 0) { // 存在替换
+        state.tags.splice(currentIndex, 1, item)
+        state.tags = state.tags.map((v, index) => {
+          if (index === currentIndex) {
             return item
           }
           return v
         })
       } else { // 不存在添加
+        // state.tags.push(item)
         state.tags = state.tags.concat(item)
       }
     }
