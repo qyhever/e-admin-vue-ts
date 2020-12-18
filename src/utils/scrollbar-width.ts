@@ -1,4 +1,4 @@
-let scrollBarWidth: number
+let scrollBarWidth = 0
 
 export default function (): number {
   if (scrollBarWidth !== undefined) {

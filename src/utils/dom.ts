@@ -1,4 +1,4 @@
-type handler<T = any, R = void> = (...arg: T[]) => R
+type handler<T = any, R = void> = (...arg: T[]) => R // eslint-disable-line
 
 export const on = (
   element: Element | HTMLElement | Document | Window,
@@ -6,7 +6,7 @@ export const on = (
   handler: handler
 ) => {
   if (element && event && handler) {
-    element.addEventListener(event, handler, false);
+    element.addEventListener(event, handler, false)
   }
 }
 
@@ -16,44 +16,47 @@ export const off = (
   handler: handler
 ) => {
   if (element && event && handler) {
-    element.removeEventListener(event, handler, false);
+    element.removeEventListener(event, handler, false)
   }
-}
-
-const cubic = (value: number) => Math.pow(value, 3)
-const easeInOutCubic = (value: number) => {
-  return value < 0.5
-  ? cubic(value * 2) / 2
-  : 1 - cubic((1 - value) * 2) / 2
 }
 
 type scrollToType = {
   el?: HTMLElement
   to: number
   duration?: number
+  endCallback?: () => void
 }
 
-export const scrollTo = ({ el, to, duration = 500 }: scrollToType) => {
-  const beginTime = new Date().getTime()
-  const beginValue = el ? el.scrollTop : window.pageYOffset
-  const rAF = window.requestAnimationFrame || (func => setTimeout(func, 16))
-  const frameFunc = () => {
-    const progress = (new Date().getTime() - beginTime) / duration
-    if (progress < 1) {
-      const result = beginValue * (1 - easeInOutCubic(progress))
-      if (el) {
-        el.scrollTop = result
-      } else {
-        window.scrollTo(0, result)
+export function scrollTo({el, to, duration = 500, endCallback}: scrollToType) {
+  if (!window.requestAnimationFrame) {
+    window.requestAnimationFrame = (
+      window.webkitRequestAnimationFrame ||
+      function(callback) {
+        return window.setTimeout(callback, 1000 / 60)
       }
-      rAF(frameFunc)
-    } else {
-      if (el) {
-        el.scrollTop = to
-      } else {
-        window.scrollTo(0, to)
-      }
-    }
+    )
   }
-  rAF(frameFunc)
+  const from = el ? el.scrollTop : window.pageYOffset
+  const difference = Math.abs(from - to)
+  const step = Math.ceil(difference / duration * 50)
+
+  function scroll(start: number, end: number, step: number) {
+    if (start === end) {
+      endCallback && endCallback()
+      return
+    }
+
+    let d = (start + step > end) ? end : start + step
+    if (start > end) {
+      d = (start - step < end) ? end : start - step
+    }
+
+    if (!el) {
+      window.scrollTo(d, d)
+    } else {
+      el.scrollTop = d
+    }
+    window.requestAnimationFrame(() => scroll(d, end, step))
+  }
+  scroll(from, to, step)
 }

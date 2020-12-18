@@ -4,7 +4,7 @@ import { isFunc } from '@/utils/type'
 /**
  * @description  获取 slot
  */
-export function getSlot(slots: Slots, slot = 'default', data?: any) {
+export function getSlot(slots: Slots, slot = 'default', data?: unknown) {
   if (!slots || !Reflect.has(slots, slot)) {
     return null
   }
@@ -26,7 +26,7 @@ export function getSlot(slots: Slots, slot = 'default', data?: any) {
  */
 export function extendSlots(slots: Slots, excludeKeys: string[] = []) {
   const slotKeys = Object.keys(slots)
-  const ret: any = {}
+  const ret: Record<string, unknown> = {}
   slotKeys.map((key) => {
     if (excludeKeys.includes(key)) {
       return null
@@ -38,7 +38,7 @@ export function extendSlots(slots: Slots, excludeKeys: string[] = []) {
 
 // Get events on attrs
 export function getListeners(attrs: Record<string, unknown>) {
-  const listeners: any = {}
+  const listeners: Record<string, unknown> = {}
   Object.keys(attrs).forEach((key) => {
     if (/^on/.test(key)) {
       listeners[key] = attrs[key]

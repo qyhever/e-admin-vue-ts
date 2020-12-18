@@ -11,14 +11,20 @@
 
 <script lang="ts">
 import { defineComponent, ref, unref, nextTick } from 'vue'
-import { Scrollbar, ScrollbarType } from '@/components/scrollbar'
+import type { ComponentPublicInstance } from 'vue'
+import { Scrollbar } from '@/components/scrollbar'
 import { scrollTo as elScrollTo } from '@/utils/dom'
+export type ScrollActionType = {
+  scrollBottom: () => void
+  getScrollWrap: () => HTMLElement | null
+  scrollTo: (top: number) => void
+}
 export default defineComponent({
   components: {
     Scrollbar
   },
   setup() {
-    const scrollbarRef = ref<ScrollbarType | null>(null)
+    const scrollbarRef = ref<ComponentPublicInstance | null>(null)
 
     // 滚动到某个位置
     function scrollTo(to: number, duration = 500) {
@@ -27,13 +33,14 @@ export default defineComponent({
         return
       }
       nextTick(() => {
-        const wrap = unref(scrollbar.wrap)
+        const wrap = scrollbar.$el.querySelector('.scrollbar__wrap') as HTMLElement
         if (!wrap) {
           return
         }
         elScrollTo({
           el: wrap,
-          to
+          to,
+          duration
         })
       })
     }
@@ -44,7 +51,7 @@ export default defineComponent({
       if (!scrollbar) {
         return null
       }
-      return scrollbar.wrap
+      return scrollbar
     }
 
     // 滚动到底部
@@ -54,7 +61,7 @@ export default defineComponent({
         return
       }
       nextTick(() => {
-        const wrap = unref(scrollbar.wrap)
+        const wrap = scrollbar.$el.querySelector('.scrollbar__wrap') as HTMLElement
         if (!wrap) {
           return
         }
@@ -82,13 +89,14 @@ export default defineComponent({
   position: relative;
   overflow: hidden;
   width: 100%;
-  ::v-deep {
-    .scrollbar__bar {
-      bottom: 0px;
-    }
-    .scrollbar__wrap {
-      height: 49px;
-    }
-  }
+  height: 100%;
+  // ::v-deep {
+  //   .scrollbar__bar {
+  //     bottom: 0px;
+  //   }
+  //   .scrollbar__wrap {
+  //     height: 49px;
+  //   }
+  // }
 }
 </style>

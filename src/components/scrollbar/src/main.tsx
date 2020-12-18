@@ -1,8 +1,7 @@
-import { HTMLAttributes } from 'vue'
 import { addResizeListener, removeResizeListener, ResizeElement } from '@/utils/resize-event'
 import scrollbarWidth from '@/utils/scrollbar-width'
 import { toObject } from './util'
-import Bar from './Bar'
+import Bar from './bar'
 import { isString } from '@/utils/type'
 import {
   defineComponent,
@@ -13,7 +12,8 @@ import {
   provide,
   onMounted,
   nextTick,
-  onBeforeUnmount
+  onBeforeUnmount,
+  HTMLAttributes
 } from 'vue'
 import { getSlot } from '@/utils/tsx-helper'
 import './index.less'
@@ -23,7 +23,7 @@ export default defineComponent({
   props: {
     native: Boolean,
     wrapStyle: {
-      type: Object as PropType<CSSStyleDeclaration | string>,
+      type: [Object, String] as PropType<CSSStyleDeclaration | string>,
       default: ''
     },
     wrapClass: {
@@ -32,12 +32,20 @@ export default defineComponent({
     },
     viewClass: String,
     viewStyle: {
-      type: Object as PropType<any>
+      type: Object as PropType<unknown>
     },
     noresize: Boolean,
     tag: {
       type: String,
       default: 'div'
+    },
+    horizontalBar: {
+      type: Boolean,
+      default: true
+    },
+    verticalBar: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props, { slots }) {
@@ -103,7 +111,7 @@ export default defineComponent({
     })
 
     return () => {
-      const { native, tag, viewClass, viewStyle, wrapClass, wrapStyle } = props
+      const { native, tag, viewClass, viewStyle, wrapClass, wrapStyle, horizontalBar, verticalBar } = props
       let style: string | CSSStyleDeclaration = wrapStyle
       const gutter = scrollbarWidth()
 
@@ -137,13 +145,13 @@ export default defineComponent({
           {[view]}
         </div>
       )
-      let nodes: any[] = []
+      let nodes: unknown[] = []
       const { moveX, sizeWidth, moveY, sizeHeight } = state
       if (!native) {
         nodes = [
           wrap,
-          <Bar move={moveX} size={sizeWidth}></Bar>,
-          <Bar vertical move={moveY} size={sizeHeight}></Bar>
+          horizontalBar ? <Bar move={moveX} size={sizeWidth}></Bar> : null,
+          verticalBar ? <Bar vertical move={moveY} size={sizeHeight}></Bar> : null
         ]
       } else {
         nodes = [

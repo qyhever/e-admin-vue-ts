@@ -6,7 +6,7 @@ export interface ResizeElement extends HTMLElement {
 }
 
 const resizeHandler = function(entries: ResizeObserverEntry[]) {
-  for (let entry of entries) {
+  for (const entry of entries) {
     const listeners = (entry.target as ResizeElement).__resizeListeners__ || []
     if (listeners.length) {
       listeners.forEach((fn: () => void) => {

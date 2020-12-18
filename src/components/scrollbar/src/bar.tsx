@@ -22,7 +22,7 @@ export default defineComponent({
     const thumbRef = ref<HTMLDivElement | null>(null)
     const elRef = ref<HTMLDivElement | null>(null)
     const parentElRef = inject('scroll-bar-wrap') as Ref<HTMLDivElement | null>
-    const commonState = reactive<Record<string, any>>({})
+    const commonState = reactive<Record<string, unknown>>({})
     const barRef = computed(() => {
       return BAR_MAP[props.vertical ? 'vertical' : 'horizontal']
     })
@@ -32,7 +32,7 @@ export default defineComponent({
         return
       }
       const bar = unref(barRef)
-      const prevPage = commonState[bar.axis]
+      const prevPage = commonState[bar.axis] as number
       const el = unref(elRef)
       const parentEl = unref(parentElRef)
       const thumbEl = unref(thumbRef)
@@ -40,7 +40,7 @@ export default defineComponent({
         return
       }
       const rect = el.getBoundingClientRect()
-      const offset = (rect[bar.direction] - e[bar.client]) * - 1
+      const offset = (rect[bar.direction] - e[bar.client]) * -1
       const thumbClickPosition = thumbEl[bar.offset] - prevPage
       const thumbPositionPercentage = ((offset - thumbClickPosition) * 100) / el[bar.offset]
 
