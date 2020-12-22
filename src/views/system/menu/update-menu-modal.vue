@@ -34,7 +34,7 @@
       </a-form-item>
     </a-form>
     <template #footer>
-      <a-button type="primary" :loading="submitting" @click="onSubmit">编辑</a-button>
+      <a-button type="primary" :loading="submitting" @click="onSubmit">{{currentRow.id ? '编辑' : '创建'}}</a-button>
       <a-button @click="onReset">重置</a-button>
     </template>
   </a-modal>
@@ -46,6 +46,10 @@ import { Canceler } from 'axios'
 import { message } from 'ant-design-vue'
 import { Form } from 'ant-design-vue/types/form/form'
 import { updateMenu, updateMenuParamsType } from './service'
+
+type FormType = Omit<updateMenuParamsType, 'pid'> & {
+  pid: number[]
+}
 
 export default defineComponent({
   emits: ['update:visible', 'update-success', 'create-success'],
@@ -69,12 +73,12 @@ export default defineComponent({
       wrapperCol: { span: 18 },
       submitting: false,
       form: {
-        id: 0,
+        id: null,
         title: '',
         url: '',
         icon: '',
         pid: []
-      } as updateMenuParamsType
+      } as FormType
     })
 
     const formRef = ref<Form | null>(null)
@@ -105,7 +109,7 @@ export default defineComponent({
         if (newVal) {
           nextTick(() => {
             state.form = {
-              id: props.currentRow.id || 0,
+              id: props.currentRow.id || null,
               title: props.currentRow.title || '',
               url: props.currentRow.url || '',
               icon: props.currentRow.icon || '',
@@ -135,8 +139,12 @@ export default defineComponent({
 
     async function onSubmit() {
       try {
+        const params = {
+          ...state.form,
+          pid: state.form.pid.length ? state.form.pid : null
+        }
         await updateMenu(
-          state.form,
+          params,
           v => (state.submitting = v),
           c => (cancel = c)
         )

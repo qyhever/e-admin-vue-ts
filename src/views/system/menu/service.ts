@@ -8,11 +8,11 @@ export type getMenusParamsType = {
 }
 
 export type updateMenuParamsType = {
-  id: number
+  id: number | null
   title: string
   url: string
   icon: string
-  pid: number[]
+  pid: number[] | null
 }
 
 export const getMenus = (params: getMenusParamsType) => {

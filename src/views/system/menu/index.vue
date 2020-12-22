@@ -29,6 +29,11 @@
           {{index + 1}}
         </span>
       </template>
+      <template #icon="{ text }">
+        <span>
+          {{text || '/'}}
+        </span>
+      </template>
       <template #createTime="{ text }">
         <span>
           {{$formatDateTime(text)}}
@@ -115,7 +120,8 @@ const columns = [
     dataIndex: 'icon',
     key: 'icon',
     align: 'center',
-    title: 'icon'
+    title: 'icon',
+    slots: { customRender: 'icon' }
   },
   {
     dataIndex: 'createTime',
@@ -251,3 +257,12 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="less" scoped>
+  .danger {
+    color: rgb(255, 77, 79);
+  }
+  .add-button__icon {
+    font-size: 18px;
+  }
+</style>
