@@ -84,7 +84,7 @@ export default defineComponent({
       if (item.meta.affix) {
         return
       }
-      const hasCurrent = state.tags.some(v => v.path === item.path)
+      const hasCurrent = state.tags.some(v => v.path === item.path)zz
       if (!hasCurrent) {
         state.tags = state.tags.concat(item)
       }
