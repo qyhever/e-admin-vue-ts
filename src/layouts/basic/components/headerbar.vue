@@ -199,9 +199,13 @@ export default defineComponent({
     padding: 0 10px;
   }
   .header {
-    ::v-deep .anticon-question-circle, ::v-deep .icon-bell, .fullscreen {
-      font-size: 18px;
-      color: rgba(105, 123, 140, .7);
+    ::v-deep(.header-right) {
+      .anticon-question-circle,
+      .icon-bell,
+      .fullscreen {
+        font-size: 18px;
+        color: rgba(105, 123, 140, 0.7);
+      }
     }
   }
   .fullscreen {
@@ -226,7 +230,7 @@ export default defineComponent({
   .notification {
     height: 100%;
     cursor: pointer;
-    ::v-deep .ant-badge-count {
+    ::v-deep(.ant-badge) .ant-badge-count {
       min-width: 14px;
       height: 14px;
       padding: 0;

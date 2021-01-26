@@ -169,19 +169,8 @@ export default defineComponent({
   }
   .form {
     padding-top: 30px;
-    // ::v-deep .ant-input {
-    //   border-top: 0;
-    //   border-left: 0;
-    //   border-right: 0;
-    //   border-radius: 0;
-    //   &:focus {
-    //     box-shadow: 0 0 0 0 rgba(52, 111, 255, 0.2);
-    //   }
-    // }
     .submit-btn {
       width: 100%;
-      // height: 48px;
-      // margin: 20px 0;
       border: 0;
     }
   }

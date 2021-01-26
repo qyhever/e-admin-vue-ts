@@ -161,21 +161,21 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-  .image-uploader {
-    ::v-deep {
-      .ant-upload .ant-upload {
-        position: relative;
-      }
-      .com-image {
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        right: 8px;
-        bottom: 0;
-        .image {
-          height: auto;
-        }
+.image-uploader {
+  ::v-deep(.ant-upload) {
+    .ant-upload {
+      position: relative;
+    }
+    .com-image {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 0;
+      .image {
+        height: auto;
       }
     }
   }
+}
 </style>

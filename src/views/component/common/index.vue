@@ -83,7 +83,7 @@ export default defineComponent({
   }
   .preview {
     margin-bottom: 10px;
-    ::v-deep .svg-icon {
+    ::v-deep(.svg-icon) {
       color: @color-theme;
       font-size: 30px;
     }

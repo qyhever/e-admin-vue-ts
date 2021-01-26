@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, unref } from 'vue'
-import ScrollPane, { ScrollActionType } from '@/layouts/basic/components/scroll-pane.vue'
+import ScrollPane, { ScrollActionType } from './scroll-pane.vue'
 export default defineComponent({
   components: {
     ScrollPane

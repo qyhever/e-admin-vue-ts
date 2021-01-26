@@ -119,7 +119,7 @@ export default defineComponent({
   .icon-logo {
     font-size: 30px;
   }
-  ::v-deep .ant-list-item {
+  ::v-deep(.ant-list-item) {
     padding: 16px 24px;
   }
 </style>
