@@ -7,7 +7,8 @@ module.exports = {
     'plugin:vue/vue3-essential',
     'eslint:recommended',
     '@vue/standard',
-    '@vue/typescript/recommended'
+    '@vue/typescript/recommended',
+    '@vue/prettier'
   ],
   parserOptions: {
     // parser: 'babel-eslint',

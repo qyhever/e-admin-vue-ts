@@ -3,7 +3,13 @@
     <div class="scroll-wrap">
       <ScrollPane ref="scrollPane">
         <ul>
-          <li v-for="(item, index) in 600" :key="index" :style="{ border: '1px solid #eee' }">{{item}}</li>
+          <li
+            v-for="(item, index) in 600"
+            :key="index"
+            :style="{ border: '1px solid #eee' }"
+          >
+            {{ item }}
+          </li>
         </ul>
       </ScrollPane>
     </div>
@@ -39,9 +45,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-  .scroll-wrap {
-    width: 300px;
-    height: 320px;
-    background-color: #fff;
-  }
+.scroll-wrap {
+  width: 300px;
+  height: 320px;
+  background-color: #fff;
+}
 </style>

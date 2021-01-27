@@ -71,11 +71,14 @@ export const addPending = (config: AxiosRequestConfig) => {
     qs.stringify(config.params),
     qs.stringify(config.data)
   ].join('&')
-  config.cancelToken = config.cancelToken || new axios.CancelToken(cancel => {
-    if (!pending.has(url)) { // 如果 pending 中不存在当前请求，则添加进去
-      pending.set(url, cancel)
-    }
-  })
+  config.cancelToken =
+    config.cancelToken ||
+    new axios.CancelToken(cancel => {
+      if (!pending.has(url)) {
+        // 如果 pending 中不存在当前请求，则添加进去
+        pending.set(url, cancel)
+      }
+    })
 }
 /**
  * 移除请求
@@ -88,7 +91,8 @@ export const removePending = (config: AxiosRequestConfig) => {
     qs.stringify(config.params),
     qs.stringify(config.data)
   ].join('&')
-  if (pending.has(url)) { // 如果在 pending 中存在当前请求标识，需要取消当前请求，并且移除
+  if (pending.has(url)) {
+    // 如果在 pending 中存在当前请求标识，需要取消当前请求，并且移除
     const cancel = pending.get(url)
     cancel(url)
     pending.delete(url)
@@ -154,7 +158,14 @@ type RequestThenEndType = {
   throwWarningError: boolean
 }
 const requestThenEnd = (options: RequestThenEndType) => {
-  const { response, loadingCb, showLoading, showWarning, warningMsg, throwWarningError } = options
+  const {
+    response,
+    loadingCb,
+    showLoading,
+    showWarning,
+    warningMsg,
+    throwWarningError
+  } = options
   loadingCb(false)
   endCount()
   if (showLoading) {
@@ -162,7 +173,8 @@ const requestThenEnd = (options: RequestThenEndType) => {
   }
   removePending(response.config) // 在请求结束后，移除本次请求
   const responseData = response.data || {}
-  if (responseData.success) { // success code
+  if (responseData.success) {
+    // success code
     return responseData.data
   }
   if (responseData.code === 202) {
@@ -195,13 +207,21 @@ type RequestCatchEndType = {
   throwHttpError: boolean
 }
 const requestCatchEnd = (options: RequestCatchEndType) => {
-  const { error, loadingCb, showLoading, showError, errorMsg, throwHttpError } = options
+  const {
+    error,
+    loadingCb,
+    showLoading,
+    showError,
+    errorMsg,
+    throwHttpError
+  } = options
   loadingCb(false)
   endCount()
   if (showLoading) {
     // Loading.close()
   }
-  if (axios.isCancel(error)) { // 取消请求的错误，直接跳过
+  if (axios.isCancel(error)) {
+    // 取消请求的错误，直接跳过
     console.log('cancel request: ' + error.message)
     return genEmptyPromise()
   }
@@ -238,14 +258,16 @@ const instance = axios.create({
   headers: {
     'Content-Type': FORMDATA_CONTENT_TYPE
   },
-  transformRequest: [function(data, headers) {
-    if (headers['Content-Type'] === FORMDATA_CONTENT_TYPE) {
-      return qs.stringify(data, {
-        skipNulls: true
-      })
+  transformRequest: [
+    function (data, headers) {
+      if (headers['Content-Type'] === FORMDATA_CONTENT_TYPE) {
+        return qs.stringify(data, {
+          skipNulls: true
+        })
+      }
+      return data
     }
-    return data
-  }]
+  ]
 })
 export interface LoadingCallback {
   (status: boolean): void
@@ -288,11 +310,25 @@ const request = (options: IAxiosRequest) => {
   requestStart(config, loadingCb, showLoading)
   return instance(config)
     .then(response => {
-      return requestThenEnd({response, loadingCb, showLoading, showWarning, warningMsg, throwWarningError})
+      return requestThenEnd({
+        response,
+        loadingCb,
+        showLoading,
+        showWarning,
+        warningMsg,
+        throwWarningError
+      })
     })
     .catch(error => {
       console.log('request catch', error)
-      return requestCatchEnd({error, loadingCb, showLoading, showError, errorMsg, throwHttpError})
+      return requestCatchEnd({
+        error,
+        loadingCb,
+        showLoading,
+        showError,
+        errorMsg,
+        throwHttpError
+      })
     })
 }
 export default request
