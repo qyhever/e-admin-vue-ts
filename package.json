@@ -68,5 +68,14 @@
     "svg-sprite-loader": "^5.1.1",
     "typescript": "~3.9.3",
     "vue-cli-plugin-style-resources-loader": "^0.1.4"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }
