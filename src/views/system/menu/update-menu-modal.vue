@@ -63,9 +63,9 @@ import {
 import { Canceler } from 'axios'
 import { message } from 'ant-design-vue'
 import { Form } from 'ant-design-vue/types/form/form'
-import { updateMenu, updateMenuParamsType } from './service'
+import { updateMenu, UpdateMenuParams } from './service'
 
-type FormType = Omit<updateMenuParamsType, 'pid'> & {
+type FormType = Omit<UpdateMenuParams, 'pid'> & {
   pid: number[]
 }
 

@@ -5,11 +5,11 @@
       :loading="loading"
       :tableProps="{
         columns,
-        dataSource: menuList,
+        dataSource: menuData.list,
         rowKey: v => v.id
       }"
       :pagination="{
-        total,
+        total: menuData.total,
         current: params.page,
         pageSize: params.size,
         onChange: onPaginationChange
@@ -66,17 +66,16 @@ import {
   defineComponent,
   reactive,
   toRefs,
-  computed,
-  onMounted,
+  // ref,
   createVNode
 } from 'vue'
 import { Modal, message } from 'ant-design-vue'
 import { Canceler } from 'axios'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import appStore from '@/store/modules/app'
 import userStore from '@/store/modules/user'
 import LayoutTable from '@/components/layout-table'
 import { getMenus, getMenuTree, deleteMenu } from './service'
+import { useAsync } from '@/hooks'
 import UpdateMenuModal from './update-menu-modal.vue'
 
 type MenuItem = {
@@ -150,9 +149,6 @@ export default defineComponent({
   setup() {
     const state = reactive({
       columns,
-      menuList: [],
-      menuTree: [],
-      total: 0,
       params: {
         page: 1,
         size: 10
@@ -163,31 +159,26 @@ export default defineComponent({
 
     let cancel: Canceler | null = null
 
-    const loading = computed(() => appStore.loading)
-
-    onMounted(() => {
-      query()  // eslint-disable-line
-      queryMenuTree()  // eslint-disable-line
-    })
-
-    async function query() {
-      try {
-        const res = await getMenus(state.params)
-        state.menuList = res.list || []
-        state.total = res.total || 0
-      } catch (err) {
-        console.log(err)
+    const { data: menuData, loading, run: query } = useAsync(
+      () => {
+        return getMenus(state.params)
+      },
+      {
+        initialData: {
+          list: [],
+          total: 0
+        }
       }
-    }
+    )
 
-    async function queryMenuTree() {
-      try {
-        const res = await getMenuTree()
-        state.menuTree = res || []
-      } catch (err) {
-        console.log(err)
+    const { data: menuTree } = useAsync(
+      () => {
+        return getMenuTree()
+      },
+      {
+        initialData: []
       }
-    }
+    )
 
     function onSearch() {
       setTimeout(() => {
@@ -247,6 +238,8 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      menuData,
+      menuTree,
       loading,
       query,
       onSearch,

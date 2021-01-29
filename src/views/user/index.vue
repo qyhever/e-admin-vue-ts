@@ -75,19 +75,12 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  toRefs,
-  computed,
-  onMounted,
-  unref
-} from 'vue'
+import { defineComponent, ref, reactive, toRefs, computed, unref } from 'vue'
 import userStore from '@/store/modules/user'
 import LayoutTable from '@/components/layout-table'
 import { ArrowDownOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { getUsers, getUsersBuffer } from './service'
+import { useAsync } from '@/hooks'
 import { downloadExcel } from '@/utils'
 import UpdateUserModal from './update-user-modal.vue'
 import imagePreview from '@/components/image/image-preview'
@@ -151,27 +144,22 @@ export default defineComponent({
     const state = reactive({
       columns,
       visible: false,
-      currentRow: {},
-      userList: [],
-      loading: false
+      currentRow: {}
     })
+
+    const { data: userList, loading, run: query } = useAsync(
+      () => {
+        return getUsers({
+          username: username.value
+        })
+      },
+      {
+        initialData: []
+      }
+    )
 
     const urlList = computed(() => {
-      return state.userList.map((v: { iconUrl: string }) => v.iconUrl)
-    })
-
-    async function query() {
-      const list = await getUsers(
-        {
-          username: username.value
-        },
-        v => (state.loading = v)
-      )
-      state.userList = list
-    }
-
-    onMounted(() => {
-      query()
+      return userList.value.map(v => v.iconUrl)
     })
 
     function onUpdate(row: Record<string, unknown>) {
@@ -213,6 +201,8 @@ export default defineComponent({
     }
 
     return {
+      userList,
+      loading,
       ...toRefs(state),
       username,
       urlList,
