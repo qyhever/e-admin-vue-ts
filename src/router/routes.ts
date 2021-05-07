@@ -102,6 +102,14 @@ export const basicRoutes: RouteRecordRaw[] = [
     path: '/icon',
     name: 'icon',
     component: () => import('@/views/icon/index.vue')
+  },
+  {
+    path: '/advice',
+    name: 'advice',
+    component: () => import('@/views/advice/index.vue'),
+    meta: {
+      title: '广告栏'
+    }
   }
 ]
 
