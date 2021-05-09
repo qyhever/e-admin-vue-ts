@@ -10,7 +10,7 @@
     "build:preprod": "vue-cli-service build --mode preprod",
     "build:prod": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint",
-    "lint:fix": "eslint --fix --ext .js,.vue src"
+    "lint:fix": "eslint --fix --ext .ts,.js,.vue src"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^5.1.7",
@@ -32,7 +32,8 @@
     "vue-router": "^4.0.0-beta.13",
     "vue-types": "^3.0.0",
     "vuex": "^4.0.0-beta.4",
-    "vuex-module-decorators": "^1.0.1"
+    "vuex-module-decorators": "^1.0.1",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@types/clipboard": "^2.0.1",

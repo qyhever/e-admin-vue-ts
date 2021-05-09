@@ -110,6 +110,29 @@ export const basicRoutes: RouteRecordRaw[] = [
     meta: {
       title: '广告栏'
     }
+  },
+  {
+    path: '/excel',
+    name: 'excel',
+    component: BlankLayout,
+    children: [
+      {
+        path: '/excel/select-export-excel',
+        name: 'selectExportExcel',
+        component: () => import('@/views/excel/select-export-excel/index.vue'),
+        meta: {
+          title: '导出选择项'
+        }
+      },
+      {
+        path: '/excel/export-excel',
+        name: 'exportExcel',
+        component: () => import('@/views/excel/export-excel/index.vue'),
+        meta: {
+          title: '导出excel'
+        }
+      }
+    ]
   }
 ]
 
