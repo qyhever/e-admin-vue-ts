@@ -6,8 +6,7 @@
       :tableProps="{
         columns,
         dataSource: userList,
-        rowKey: v => v.id,
-        rowSelection: { selectedRowKeys, onChange: onSelectChange }
+        rowKey: v => v.id
       }"
       :pagination="{
         hideOnSinglePage: true
@@ -15,12 +14,12 @@
       :onRefresh="query"
     >
       <template #buttons>
-        <a-radio-group v-model:value="type">
-          <a-radio v-for="(item, index) in typeList" :key="index" :value="item">
-            {{ item }}
-          </a-radio>
-        </a-radio-group>
-        <a-button type="primary" @click="onExport">导出{{ type }}</a-button>
+        <a-button type="primary" @click="onExport">
+          <template #icon>
+            <FileZipOutlined />
+          </template>
+          下载zip
+        </a-button>
       </template>
       <template #index="{ index }">
         <span>
@@ -44,14 +43,16 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs, computed, unref } from 'vue'
 import LayoutTable from '@/components/layout-table'
-import { UserOutlined } from '@ant-design/icons-vue'
+import { UserOutlined, FileZipOutlined } from '@ant-design/icons-vue'
 import { getUsers } from '@/views/user/service'
 import { useAsync } from '@/hooks'
 import imagePreview from '@/components/image/image-preview'
-import { exportJsonToExcel } from '@/utils/excel'
-import { UserListItem } from '@/views/user/types'
-import { isDefined } from '@/utils/type'
-import { excelHeader, excelKeyList, normalizeExcelData } from '../types'
+import { exportTxtToZip } from '@/utils/zip'
+import {
+  excelHeader,
+  excelKeyList,
+  normalizeExcelData
+} from '@/views/excel/types'
 const columns = [
   {
     dataIndex: 'index',
@@ -93,31 +94,21 @@ const columns = [
   }
 ]
 
-function getSelectedRows(keys: number[], list: UserListItem[]) {
-  return keys.map(key => list.find(item => item.id === key)).filter(isDefined)
-}
-
-type FileType = 'xlsx' | 'csv' | 'txt'
-
-type StateType = {
-  columns: typeof columns
-  typeList: FileType[]
-  selectedRowKeys: number[]
-}
-
 export default defineComponent({
-  name: 'SelectExportExcel',
+  name: 'Zip',
   components: {
     LayoutTable,
-    UserOutlined
+    UserOutlined,
+    FileZipOutlined
   },
   setup() {
     const username = ref('')
     const type = ref('xlsx')
-    const state = reactive<StateType>({
+    const state = reactive({
       columns,
-      typeList: ['xlsx', 'csv', 'txt'],
-      selectedRowKeys: []
+      visible: false,
+      currentRow: {},
+      typeList: ['xlsx', 'csv', 'txt']
     })
 
     const { data: userList, loading, run: query } = useAsync(
@@ -149,20 +140,12 @@ export default defineComponent({
     }
 
     function onExport() {
-      exportJsonToExcel({
-        data: normalizeExcelData(
-          getSelectedRows(state.selectedRowKeys, unref(userList)),
-          excelKeyList
-        ),
-        header: excelHeader,
-        filename: 'user',
-        autoWidth: false,
-        bookType: unref(type) as FileType
-      })
-    }
-
-    function onSelectChange(selectedRowKeys: number[]) {
-      state.selectedRowKeys = selectedRowKeys
+      exportTxtToZip(
+        excelHeader,
+        normalizeExcelData(unref(userList), excelKeyList),
+        'user',
+        'user'
+      )
     }
 
     return {
@@ -175,8 +158,7 @@ export default defineComponent({
       onReset,
       onImageClick,
       type,
-      onExport,
-      onSelectChange
+      onExport
     }
   }
 })

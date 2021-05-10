@@ -133,6 +133,14 @@ export const basicRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/zip',
+    name: 'zip',
+    component: () => import('@/views/zip/index.vue'),
+    meta: {
+      title: 'zip'
+    }
   }
 ]
 

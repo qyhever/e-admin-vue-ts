@@ -48,6 +48,7 @@ import { getUsers } from '@/views/user/service'
 import { useAsync } from '@/hooks'
 import imagePreview from '@/components/image/image-preview'
 import { exportJsonToExcel } from '@/utils/excel'
+import { excelHeader, excelKeyList, normalizeExcelData } from '../types'
 const columns = [
   {
     dataIndex: 'index',
@@ -90,7 +91,7 @@ const columns = [
 ]
 
 export default defineComponent({
-  name: 'User',
+  name: 'ExportExcel',
   components: {
     LayoutTable,
     UserOutlined
@@ -132,16 +133,14 @@ export default defineComponent({
         initialIndex: urls.findIndex(v => v === url)
       })
     }
-    const bookType = unref(type) as 'xlsx' | 'csv' | 'txt'
 
     function onExport() {
       exportJsonToExcel({
-        data: unref(userList),
-        key: ['Id', 'Email', '名称', '介绍', '头像'],
-        title: 'title',
-        filename: 'filename',
-        isAutoWidth: false,
-        bookType
+        data: normalizeExcelData(unref(userList), excelKeyList),
+        header: excelHeader,
+        filename: 'user',
+        autoWidth: false,
+        bookType: unref(type) as 'xlsx' | 'csv' | 'txt'
       })
     }
 
