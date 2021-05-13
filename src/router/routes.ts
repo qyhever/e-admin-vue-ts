@@ -141,6 +141,30 @@ export const basicRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'zip'
     }
+  },
+  {
+    path: '/drag',
+    name: 'drag',
+    component: () => import('@/views/drag/index.vue'),
+    meta: {
+      title: '拖拽'
+    }
+  },
+  {
+    path: '/qrcode',
+    name: 'qrcode',
+    component: () => import('@/views/qrcode/index.vue'),
+    meta: {
+      title: '二维码'
+    }
+  },
+  {
+    path: '/copy',
+    name: 'copy',
+    component: () => import('@/views/copy/index.vue'),
+    meta: {
+      title: '复制'
+    }
   }
 ]
 
