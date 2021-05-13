@@ -119,7 +119,7 @@ export const basicRoutes: RouteRecordRaw[] = [
       {
         path: '/excel/select-export-excel',
         name: 'selectExportExcel',
-        component: () => import('@/views/excel/select-export-excel.vue'),
+        component: () => import('@/views/excel/select-export-excel/index.vue'),
         meta: {
           title: '导出选择项'
         }
@@ -127,12 +127,20 @@ export const basicRoutes: RouteRecordRaw[] = [
       {
         path: '/excel/export-excel',
         name: 'exportExcel',
-        component: () => import('@/views/excel/export-excel.vue'),
+        component: () => import('@/views/excel/export-excel/index.vue'),
         meta: {
-          title: '导出Excel'
+          title: '导出excel'
         }
       }
     ]
+  },
+  {
+    path: '/zip',
+    name: 'zip',
+    component: () => import('@/views/zip/index.vue'),
+    meta: {
+      title: 'zip'
+    }
   }
 ]
 

@@ -45,9 +45,9 @@
       <template #action="{ record }">
         <!-- <a-button type="link" @click="onUpdate(record)">编辑</a-button>
         <a-button type="link" @click="onDelete(record)">删除</a-button> -->
-        <a @click="onUpdate(record)"> 编辑 </a>
+        <a @click="onUpdate(record)">编辑</a>
         <a-divider type="vertical" />
-        <a class="danger" @click="onDelete(record)"> 删除 </a>
+        <a class="danger" @click="onDelete(record)">删除</a>
       </template>
     </LayoutTable>
     <UpdateMenuModal
@@ -56,8 +56,7 @@
       :menuCascaderOptions="menuTree"
       @create-success="onCreateSuccess"
       @update-success="onUpdateSuccess"
-    >
-    </UpdateMenuModal>
+    ></UpdateMenuModal>
   </div>
 </template>
 
