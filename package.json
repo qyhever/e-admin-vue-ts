@@ -10,7 +10,7 @@
     "build:preprod": "vue-cli-service build --mode preprod",
     "build:prod": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint",
-    "lint:fix": "eslint --fix --ext .ts,.js,.vue src"
+    "lint:fix": "eslint --fix --ext .tsx,.ts,.js,.vue src"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^5.1.7",
@@ -26,6 +26,8 @@
     "lodash": "^4.17.20",
     "md5": "^2.3.0",
     "nprogress": "^0.2.0",
+    "qr.js": "0.0.0",
+    "qrcode": "^1.4.4",
     "screenfull": "^5.0.2",
     "vue": "^3.0.4",
     "vue-class-component": "^8.0.0-0",
