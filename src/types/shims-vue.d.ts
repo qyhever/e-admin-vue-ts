@@ -17,5 +17,9 @@ declare namespace NodeJS {
 declare module '*.css'
 declare module '*.less'
 declare module '*.scss'
+declare module '*.png' {
+  const src: string
+  export default src
+}
 
 declare module 'ant-design-vue/lib/locale-provider/zh_CN'
