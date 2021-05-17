@@ -1,4 +1,13 @@
-import { defineComponent, PropType, ref, onMounted, toRefs, unref } from 'vue'
+import {
+  defineComponent,
+  PropType,
+  ref,
+  onMounted,
+  toRefs,
+  unref,
+  watch,
+  onBeforeUpdate
+} from 'vue'
 import QRCode from 'qr.js/lib/QRCode'
 import ErrorCorrectLevel from 'qr.js/lib/ErrorCorrectLevel'
 import { omit } from 'lodash'
@@ -38,6 +47,7 @@ function convertStr(str: string) {
 }
 
 type QRProps = {
+  canvasClass: string
   value: string
   size: number
   level: 'L' | 'M' | 'Q' | 'H'
@@ -166,6 +176,10 @@ const SUPPORTS_PATH2D = (function () {
 export default defineComponent({
   name: 'Qrcode',
   props: {
+    canvasClass: {
+      type: String,
+      default: ''
+    },
     value: {
       required: true,
       type: String
@@ -210,6 +224,7 @@ export default defineComponent({
   setup(props) {
     const canvasRef = ref<HTMLCanvasElement | null>(null)
     const imageRef = ref<HTMLImageElement | null>(null)
+    const initial = ref(false)
     const imgLoaded = ref(false)
 
     onMounted(() => {
@@ -218,6 +233,11 @@ export default defineComponent({
         handleImageLoad() // eslint-disable-line
       }
       update() // eslint-disable-line
+    })
+
+    onBeforeUpdate(() => {
+      initial.value && update() // eslint-disable-line
+      initial.value = true
     })
 
     function handleImageLoad() {
@@ -234,6 +254,9 @@ export default defineComponent({
         includeMargin,
         imageSettings
       } = toRefs(props)
+      console.log('value', value)
+      console.log('size', size)
+      debugger
       const qrcode = new QRCode(-1, ErrorCorrectLevel[level.value])
       qrcode.addData(convertStr(unref(value)))
       qrcode.make()
@@ -295,14 +318,23 @@ export default defineComponent({
       }
     }
 
+    watch(
+      () => props.imageSettings,
+      (value, oldValue) => {
+        if (value?.src !== oldValue?.src) {
+          imgLoaded.value = false
+        }
+      }
+    )
+
     return () => {
-      const { size, style, imageSettings, ...otherProps } = omit(props, [
-        'value',
-        'level',
-        'bgColor',
-        'fgColor',
-        'includeMargin'
-      ])
+      const {
+        size,
+        style,
+        imageSettings,
+        canvasClass,
+        ...otherProps
+      } = omit(props, ['value', 'level', 'bgColor', 'fgColor', 'includeMargin'])
       const canvasStyle = { height: size, width: size, ...style }
       let img = null
       const imgSrc = imageSettings && imageSettings.src
@@ -319,6 +351,7 @@ export default defineComponent({
       return (
         <>
           <canvas
+            class={canvasClass}
             style={canvasStyle}
             height={size}
             width={size}
