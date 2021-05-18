@@ -1,5 +1,5 @@
-import { PropType } from 'vue'
-import { EmojiSkin, EmojiSheetSize, EmojiSet, ThemeType, EmojiData, PartialI18n } from './types'
+import { PropType, CSSProperties } from 'vue'
+import { EmojiSkin, EmojiSheetSize, EmojiSet, ThemeType, EmojiData, PartialI18n, CategoryName, CustomEmoji, CustomIcons } from './types'
 
 const setList = ['apple', 'google', 'twitter', 'facebook']
 
@@ -86,20 +86,6 @@ export const emojiPropTypes = {
   }
 }
 
-export type CustomItemType = {
-  name: string
-  short_names: string[]
-  emoticons?: string[]
-  keywords?: string[]
-  imageUrl?: string
-  spriteUrl?: string
-  sheet_x?: number
-  sheet_y?: number
-  size?: number
-  sheetColumns?: number
-  sheetRows?: number
-}
-
 export const pickerPropTypes = {
   onClick: {
     type: Function as PropType<(emoji: EmojiData, e: MouseEvent) => void>,
@@ -126,7 +112,7 @@ export const pickerPropTypes = {
     default: () => ({})
   },
   style: {
-    type: Object as PropType<Record<string, any>>,
+    type: Object as PropType<CSSProperties>,
     default: () => ({})
   },
   title: {
@@ -178,10 +164,10 @@ export const pickerPropTypes = {
     default: 'light'
   },
   include: {
-    type: Array as PropType<string[]>
+    type: Array as PropType<CategoryName[]>
   },
   exclude: {
-    type: Array as PropType<string[]>
+    type: Array as PropType<CategoryName[]>
   },
   recent: {
     type: Array as PropType<string[]>
@@ -195,7 +181,7 @@ export const pickerPropTypes = {
     default: false
   },
   custom: {
-    type: Array as PropType<CustomItemType[]>,
+    type: Array as PropType<CustomEmoji[]>,
     default: () => ([])
   },
   skinEmoji: {
@@ -211,7 +197,7 @@ export const pickerPropTypes = {
     default: 'sleuth_or_spy'
   },
   icons: {
-    type: Object as PropType<Record<string, any>>,
+    type: Object as PropType<CustomIcons>,
     default: () => ({})
   }
 }

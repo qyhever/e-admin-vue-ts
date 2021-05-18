@@ -1,4 +1,5 @@
 import store from './store'
+import { EmojiData } from './types'
 
 const DEFAULTS = [
   '+1',
@@ -19,7 +20,7 @@ const DEFAULTS = [
   'poop',
 ]
 
-let frequently: Record<string, any> = {}
+let frequently: Record<string, number> = {}
 let initialized = false
 let defaults: Record<string, any>  = {}
 
@@ -28,16 +29,18 @@ function init() {
   frequently = store.get('frequently')
 }
 
-function add(emoji: any) {
+function add(emoji: Pick<EmojiData, 'id'>) {
   if (!initialized) init()
   const { id } = emoji
 
   frequently || (frequently = defaults)
-  frequently[id] || (frequently[id] = 0)
-  frequently[id] += 1
-
-  store.set('last', id)
-  store.set('frequently', frequently)
+  if (id) {
+    frequently[id] || (frequently[id] = 0)
+    frequently[id] += 1
+  
+    store.set('last', id)
+    store.set('frequently', frequently)
+  }
 }
 
 function get(perLine: number) {
