@@ -44,7 +44,7 @@
             </template>
             <ComUploadImage
               v-model:value="form.fileList"
-              :limitSize="1"
+              :limit="1"
             ></ComUploadImage>
           </a-form-item>
           <a-form-item label="logo宽" name="logoW">

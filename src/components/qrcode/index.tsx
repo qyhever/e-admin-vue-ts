@@ -236,12 +236,17 @@ export default defineComponent({
     })
 
     onBeforeUpdate(() => {
-      initial.value && update() // eslint-disable-line
+      if (initial.value) {
+        setTimeout(() => {
+          update() // eslint-disable-line
+        }, 20)
+      }
       initial.value = true
     })
 
     function handleImageLoad() {
       imgLoaded.value = true
+      update() // eslint-disable-line
     }
 
     function update() {
@@ -254,9 +259,6 @@ export default defineComponent({
         includeMargin,
         imageSettings
       } = toRefs(props)
-      console.log('value', value)
-      console.log('size', size)
-      debugger
       const qrcode = new QRCode(-1, ErrorCorrectLevel[level.value])
       qrcode.addData(convertStr(unref(value)))
       qrcode.make()

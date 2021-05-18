@@ -20,6 +20,8 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.9.7",
     "echarts": "^4.9.0",
+    "emoji-datasource": "^6.1.1",
+    "emojilib": "^3.0.2",
     "file-saver": "^2.0.5",
     "js-base64": "^3.6.0",
     "jszip": "^3.6.0",

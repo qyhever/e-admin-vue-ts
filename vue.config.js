@@ -1,5 +1,6 @@
 const path = require('path')
 const dayjs = require('dayjs')
+const pkg = require('./package.json')
 const isDev = process.env.NODE_ENV === 'development'
 const now = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
@@ -84,6 +85,7 @@ module.exports = {
     config.plugin('define').tap(args => {
       // DefinePlugin 设置值 必须 JSON 序列化 或者 使用 双引号 包起来
       args[0]['process.env'].NOW = JSON.stringify(now)
+      args[0]['process.env'].EMOJI_DATASOURCE_VERSION = JSON.stringify(pkg.dependencies['emoji-datasource'])
       return args
     })
   },

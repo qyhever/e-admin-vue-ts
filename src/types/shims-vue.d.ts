@@ -11,6 +11,7 @@ declare namespace NodeJS {
     readonly NODE_ENV: 'development' | 'production'
     readonly VUE_APP_MODE: 'dev' | 'alpha' | 'preprod' | 'prod'
     readonly NOW: string
+    readonly EMOJI_DATASOURCE_VERSION: string
   }
 }
 
