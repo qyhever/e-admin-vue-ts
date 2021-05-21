@@ -17,12 +17,12 @@ const DEFAULTS = [
   'sob',
   'sunglasses',
   'heart',
-  'poop',
+  'poop'
 ]
 
 let frequently: Record<string, number> = {}
 let initialized = false
-let defaults: Record<string, any>  = {}
+let defaults: Record<string, any> = {}
 
 function init() {
   initialized = true
@@ -37,7 +37,7 @@ function add(emoji: Pick<EmojiData, 'id'>) {
   if (id) {
     frequently[id] || (frequently[id] = 0)
     frequently[id] += 1
-  
+
     store.set('last', id)
     store.set('frequently', frequently)
   }

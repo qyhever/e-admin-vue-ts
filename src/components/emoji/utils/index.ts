@@ -1,5 +1,6 @@
-import { buildSearch, uncompress } from './data'
+import { buildSearch, uncompress, Emoji, Data } from './data'
 import stringFromCodePoint from '../polyfills/stringFromCodePoint'
+import { EmojiData, EmojiSkin, EmojiSet } from './types'
 
 const COLONS_REGEX = /^(?:\:([^\:]+)\:)(?:\:skin-tone-(\d)\:)?$/
 const SKINS = ['1F3FA', '1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF']
@@ -11,20 +12,20 @@ function unifiedToNative(unified: string) {
   return stringFromCodePoint.apply(null, codePoints)
 }
 
-function sanitize(emoji) {
-  var {
-      name,
-      short_names,
-      skin_tone,
-      skin_variations,
-      emoticons,
-      unified,
-      custom,
-      customCategory,
-      imageUrl,
-    } = emoji,
-    id = emoji.id || short_names[0],
-    colons = `:${id}:`
+function sanitize(emoji: any) {
+  const {
+    name,
+    short_names,
+    skin_tone,
+    skin_variations,
+    emoticons,
+    unified,
+    custom,
+    customCategory,
+    imageUrl
+  } = emoji
+  const id = emoji.id || short_names[0]
+  let colons = `:${id}:`
 
   if (custom) {
     return {
@@ -35,7 +36,7 @@ function sanitize(emoji) {
       emoticons,
       custom,
       customCategory,
-      imageUrl,
+      imageUrl
     }
   }
 
@@ -49,27 +50,34 @@ function sanitize(emoji) {
     short_names,
     colons,
     emoticons,
-    unified: unified.toLowerCase(),
+    unified: (unified as string).toLowerCase(),
     skin: skin_tone || (skin_variations ? 1 : null),
-    native: unifiedToNative(unified),
+    native: unifiedToNative(unified as string)
   }
 }
 
-function getSanitizedData(...rest) {
-  return sanitize(getData(...rest))
+function getSanitizedData() {
+  return sanitize(
+    getData(...(arguments as [Emoji | string, EmojiSkin, EmojiSet, Data]))
+  )
 }
 
-function getData(emoji, skin, set, data) {
-  var emojiData = {}
+function getData(
+  emoji: Emoji | string,
+  skin: EmojiSkin,
+  set: EmojiSet,
+  data: Data
+) {
+  let emojiData: Emoji = {}
 
-  if (typeof emoji == 'string') {
-    let matches = emoji.match(COLONS_REGEX)
+  if (typeof emoji === 'string') {
+    const matches = emoji.match(COLONS_REGEX)
 
     if (matches) {
       emoji = matches[1]
 
       if (matches[2]) {
-        skin = parseInt(matches[2], 10)
+        skin = parseInt(matches[2], 10) as EmojiSkin
       }
     }
 
@@ -108,8 +116,8 @@ function getData(emoji, skin, set, data) {
   if (emojiData.skin_variations && skin > 1) {
     emojiData = JSON.parse(JSON.stringify(emojiData))
 
-    var skinKey = SKINS[skin - 1],
-      variationData = emojiData.skin_variations[skinKey]
+    const skinKey = SKINS[skin - 1]
+    const variationData = emojiData.skin_variations[skinKey]
 
     if (variationData) {
       if (!variationData.variations && emojiData.variations) {
@@ -124,8 +132,8 @@ function getData(emoji, skin, set, data) {
       ) {
         emojiData.skin_tone = skin
 
-        for (let k in variationData) {
-          let v = variationData[k]
+        for (const k in variationData) {
+          const v = variationData[k]
           emojiData[k] = v
         }
       }
@@ -150,7 +158,7 @@ function getEmojiDataFromNative(nativeString, set, data) {
 
   let skin
   let skinCode
-  let baseNativeString = nativeString
+  const baseNativeString = nativeString
 
   skinTones.forEach((skinTone, skinToneIndex) => {
     if (nativeString.indexOf(skinTone) > 0) {
@@ -161,8 +169,8 @@ function getEmojiDataFromNative(nativeString, set, data) {
 
   let emojiData
 
-  for (let id in data.emojis) {
-    let emoji = data.emojis[id]
+  for (const id in data.emojis) {
+    const emoji = data.emojis[id]
 
     let emojiUnified = emoji.unified
 
@@ -199,15 +207,15 @@ function intersect(a, b) {
   const uniqA = uniq(a)
   const uniqB = uniq(b)
 
-  return uniqA.filter((item) => uniqB.indexOf(item) >= 0)
+  return uniqA.filter(item => uniqB.indexOf(item) >= 0)
 }
 
 function deepMerge(a, b) {
-  var o = {}
+  const o = {}
 
-  for (let key in a) {
-    let originalValue = a[key],
-      value = originalValue
+  for (const key in a) {
+    const originalValue = a[key]
+    let value = originalValue
 
     if (b.hasOwnProperty(key)) {
       value = b[key]
@@ -225,7 +233,7 @@ function deepMerge(a, b) {
 
 // https://github.com/sonicdoe/measure-scrollbar
 function measureScrollbar() {
-  if (typeof document == 'undefined') return 0
+  if (typeof document === 'undefined') return 0
   const div = document.createElement('div')
 
   div.style.width = '100px'
@@ -270,5 +278,5 @@ export {
   deepMerge,
   unifiedToNative,
   measureScrollbar,
-  throttleIdleTask,
+  throttleIdleTask
 }

@@ -1,4 +1,3 @@
-
 export type EmojiSkin = 1 | 2 | 3 | 4 | 5 | 6
 
 export type EmojiSheetSize = 16 | 20 | 32 | 64
@@ -56,7 +55,11 @@ export interface I18n {
   skintext: string
 }
 
-export type PartialI18n = Partial<Pick<I18n, 'search' | 'notfound'> & { categories: Partial<I18n['categories']> }>
+export type PartialI18n = Partial<
+  Pick<I18n, 'search' | 'notfound'> & {
+    categories: Partial<I18n['categories']>
+  }
+>
 
 export interface CustomIcons {
   categories: Record<CategoryName, () => JSX.Element>

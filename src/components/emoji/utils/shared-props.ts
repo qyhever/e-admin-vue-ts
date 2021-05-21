@@ -1,5 +1,15 @@
 import { PropType, CSSProperties } from 'vue'
-import { EmojiSkin, EmojiSheetSize, EmojiSet, ThemeType, EmojiData, PartialI18n, CategoryName, CustomEmoji, CustomIcons } from './types'
+import {
+  EmojiSkin,
+  EmojiSheetSize,
+  EmojiSet,
+  ThemeType,
+  EmojiData,
+  PartialI18n,
+  CategoryName,
+  CustomEmoji,
+  CustomIcons
+} from './types'
 
 const setList = ['apple', 'google', 'twitter', 'facebook']
 
@@ -48,14 +58,14 @@ export const emojiPropTypes = {
     default: true
   },
   skin: {
-    type: Number as PropType<EmojiSkin> ,
+    type: Number as PropType<EmojiSkin>,
     validator: (value: number) => {
       return skinList.indexOf(value) >= 0
     },
     default: 1
   },
   sheetSize: {
-    type: Number as PropType<EmojiSheetSize> ,
+    type: Number as PropType<EmojiSheetSize>,
     validator: (value: number) => {
       return sheetSizeList.indexOf(value) >= 0
     },
@@ -70,7 +80,7 @@ export const emojiPropTypes = {
     default: 57
   },
   set: {
-    type: String as PropType<EmojiSet> ,
+    type: String as PropType<EmojiSet>,
     validator: (value: string) => {
       return setList.indexOf(value) >= 0
     },
@@ -129,7 +139,7 @@ export const pickerPropTypes = {
   },
   set: emojiPropTypes.set,
   skin: {
-    type: [Number, null] as PropType<EmojiSkin | null> ,
+    type: [Number, null] as PropType<EmojiSkin | null>,
     validator: (value: number | null) => {
       if (typeof value === 'number') {
         return skinList.indexOf(value) >= 0
@@ -157,7 +167,7 @@ export const pickerPropTypes = {
   emojiTooltip: emojiPropTypes.tooltip,
   useButton: emojiPropTypes.useButton,
   theme: {
-    type: String as PropType<ThemeType> ,
+    type: String as PropType<ThemeType>,
     validator: (value: string) => {
       return themeList.indexOf(value) >= 0
     },
@@ -182,7 +192,7 @@ export const pickerPropTypes = {
   },
   custom: {
     type: Array as PropType<CustomEmoji[]>,
-    default: () => ([])
+    default: () => []
   },
   skinEmoji: {
     type: String,

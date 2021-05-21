@@ -1,6 +1,7 @@
 let NAMESPACE = 'emoji-mart'
 
-const isLocalStorageSupported = typeof window !== 'undefined' && 'localStorage' in window
+const isLocalStorageSupported =
+  typeof window !== 'undefined' && 'localStorage' in window
 
 export interface StoreHandlers {
   getter?(key: string): any
@@ -58,7 +59,6 @@ function get(key: string) {
     }
   } catch (e) {
     console.log(e)
-    return
   }
 }
 

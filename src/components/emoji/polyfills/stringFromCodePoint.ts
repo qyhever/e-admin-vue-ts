@@ -2,8 +2,8 @@ export default String.fromCodePoint ||
   function stringFromCodePoint() {
     const MAX_SIZE = 0x4000
     const codeUnits: number[] = []
-    let highSurrogate: number = 0
-    let lowSurrogate: number = 0
+    let highSurrogate = 0
+    let lowSurrogate = 0
     let index = -1
     const length = arguments.length
     if (!length) {

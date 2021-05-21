@@ -12,11 +12,11 @@ const PORT = process.env.PORT || 3000
 const cdn = {
   dev: {
     css: [],
-    js: [publicPath + 'echarts/echarts.js']
+    js: [publicPath + 'echarts4.9.0/echarts.js']
   },
   build: {
     css: [],
-    js: [publicPath + 'echarts/echarts.min.js']
+    js: [publicPath + 'echarts4.9.0/echarts.min.js']
   }
 }
 

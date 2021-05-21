@@ -165,6 +165,53 @@ export const basicRoutes: RouteRecordRaw[] = [
     meta: {
       title: '复制'
     }
+  },
+  {
+    path: '/editor',
+    name: 'editor',
+    component: BlankLayout,
+    children: [
+      {
+        path: '/editor/markdown',
+        name: 'markdown',
+        component: () => import('@/views/editor/markdown.vue'),
+        meta: {
+          title: 'markdown编辑器'
+        }
+      },
+      {
+        path: '/editor/graphicsEditor',
+        name: 'graphicsEditor',
+        component: () => import('@/views/editor/graphics-editor.vue'),
+        meta: {
+          title: '图形编辑器'
+        }
+      },
+      {
+        path: '/editor/richTextEditor',
+        name: 'richTextEditor',
+        component: () => import('@/views/editor/richtext-editor.vue'),
+        meta: {
+          title: '富文本编辑器'
+        }
+      },
+      {
+        path: '/editor/jsonEditor',
+        name: 'jsonEditor',
+        component: () => import('@/views/editor/json-editor.vue'),
+        meta: {
+          title: 'json编辑器'
+        }
+      },
+      {
+        path: '/editor/codemirror',
+        name: 'codemirror',
+        component: () => import('@/views/editor/codemirror.vue'),
+        meta: {
+          title: '代码编辑器'
+        }
+      }
+    ]
   }
 ]
 
@@ -178,6 +225,11 @@ export default [
     meta: {
       title: '登录'
     }
+  },
+  {
+    path: '/map',
+    name: 'map',
+    component: () => import('@/views/visualization/map.vue')
   },
   {
     path: '/redirect',

@@ -5,12 +5,12 @@ enum ErrorCorrentLevel {
 	H = 2
 }
 
-enum Mode {
-  MODE_NUMBER =	1 << 0,
-	MODE_ALPHA_NUM = 1 << 1,
-	MODE_8BIT_BYTE = 1 << 2,
-	MODE_KANJI = 1 << 3
-}
+// enum Mode {
+//   MODE_NUMBER =	1 << 0,
+// 	MODE_ALPHA_NUM = 1 << 1,
+// 	MODE_8BIT_BYTE = 1 << 2,
+// 	MODE_KANJI = 1 << 3
+// }
 
 class QR8bitByte {
   mode: number
@@ -41,10 +41,10 @@ declare module 'qr.js/lib/QRCode' {
   export default class QRCode {
     typeNumber: number
     errorCorrectLevel: 0 | 1 | 2 | 3
-    modules: boolean[][] | null = null
+    modules: boolean[][] | null
     moduleCount: number = 0
-    dataCache: any[] | null = null
-    dataList: QR8bitByte[] = []
+    dataCache: any[] | null
+    dataList: QR8bitByte[]
   
     constructor(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3) {
       this.typeNumber = typeNumber

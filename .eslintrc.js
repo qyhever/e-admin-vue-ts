@@ -102,6 +102,7 @@ module.exports = {
     ],
     '@typescript-eslint/ban-ts-ignore': 0,
     '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/interface-name-prefix': 0,
 
     'vue/no-dupe-keys': 0
   }
