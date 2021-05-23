@@ -17,3 +17,7 @@ export const formatDate = (date: dayjs.ConfigType) => {
 export const formatDateTime = (date: dayjs.ConfigType) => {
   return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
 }
+
+export function getMonthDay(year: number, month: number) {
+  return new Date(year, month + 1, 0).getDate()
+}

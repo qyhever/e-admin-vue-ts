@@ -212,6 +212,18 @@ export const basicRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: BlankLayout,
+    children: [
+      {
+        path: '/form/advancedForm',
+        name: 'advancedForm',
+        component: () => import('@/views/form/advanced-form.vue')
+      }
+    ]
   }
 ]
 

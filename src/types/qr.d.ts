@@ -15,9 +15,7 @@ enum ErrorCorrentLevel {
 class QR8bitByte {
   mode: number
   data: string
-  constructor(data: string) {
-    this.data = data
-  }
+  constructor(data: string)
 
   getLength(): number
 
@@ -42,18 +40,11 @@ declare module 'qr.js/lib/QRCode' {
     typeNumber: number
     errorCorrectLevel: 0 | 1 | 2 | 3
     modules: boolean[][] | null
-    moduleCount: number = 0
+    moduleCount: number
     dataCache: any[] | null
     dataList: QR8bitByte[]
   
-    constructor(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3) {
-      this.typeNumber = typeNumber
-      this.errorCorrectLevel = errorCorrectLevel
-      this.modules = null
-      this.moduleCount = 0
-      this.dataCache = null
-      this.dataList = []
-    }
+    constructor(typeNumber: number, errorCorrectLevel: 0 | 1 | 2 | 3)
   
     addData(data: string): void
   
