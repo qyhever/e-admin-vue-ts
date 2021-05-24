@@ -1,7 +1,6 @@
 <template>
   <div class="com-page p20">
-    <UnControlled
-      class="uncontrolled-editor"
+    <Codemirror
       v-model:value="content"
       :options="{
         mode: 'javascript',
@@ -9,13 +8,13 @@
         lineNumbers: true
       }"
       :autoScroll="false"
-    ></UnControlled>
+    ></Codemirror>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { UnControlled } from '@/components/codemirror'
+import Codemirror from '@/components/codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/material.css'
 require('codemirror/mode/xml/xml')
@@ -23,36 +22,43 @@ require('codemirror/mode/javascript/javascript')
 
 const code = `
   // pages/home
-  import React, {useEffect,useState} from 'react'
+  import { defineComponent, ref, onMounted } from 'vue'
   import { userList } from '@/api/login'
-  export type userListType={
-      name:string;
-      aga:number;
-      sex:string
-  };
-  const App:React.FC=()=>{
-    const [result, setResult] = useState<userListType[]>([]);
-    useEffect(() => {
-      const api=async ()=>{
-          let res=await userList({username:'li'});
-          setResult(res.data);
-      }
-      api();
-    }, [])
-      return (
-      <>
-          {result.length ?
-              result.map((item,index)=>(
-                   <p key={index}>{item.name}</p>
-              ))
-           : null}
-      </>)
+  export type UserListType={
+    name: string
+    aga: number
+    sex: string
   }
+  const App = defineComponent({
+    setup() {
+      const result = ref<UserListType[]>([])
+      onMounted(() => {
+        ;(async () => {
+          const res = await userList({ username: 'li' })
+          result.value = res.data
+        })()
+      })
+      return () => {
+        return (
+          <>
+            {
+              !!result.value.length
+              && (
+                result.value.map((item, index) => (
+                  <p key={index}>{item.name}</p>
+                ))
+              )
+            }
+          </>
+        )
+      }
+    }
+  })
   `
 
 export default defineComponent({
   components: {
-    UnControlled
+    Codemirror
   },
   setup() {
     const content = ref(code)
@@ -64,10 +70,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-.uncontrolled-editor {
-  height: 600px;
+.com-page {
   ::v-deep .CodeMirror {
-    height: 100%;
+    height: 600px;
   }
 }
 </style>

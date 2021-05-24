@@ -37,25 +37,49 @@
                   <template #icon><DeleteOutlined /></template>
                 </a-button>
               </div>
-              <a-form-item label="名字" name="names">
+              <a-form-item
+                label="名字"
+                name="names"
+                :rules="[{ required: true, message: '请填写描述!' }]"
+              >
                 <a-input v-model:value="item.names" placeholder="请填写" />
               </a-form-item>
-              <a-form-item label="性别" name="sex">
+              <a-form-item
+                label="性别"
+                name="sex"
+                :rules="[{ required: true, message: '请选择性别!' }]"
+              >
                 <a-radio-group v-model:value="item.sex">
                   <a-radio :value="1">男</a-radio>
                   <a-radio :value="2">女</a-radio>
                 </a-radio-group>
               </a-form-item>
-              <a-form-item label="地址" name="address">
+              <a-form-item
+                label="地址"
+                name="address"
+                :rules="[{ required: true, message: '请填写地址!' }]"
+              >
                 <a-input v-model:value="item.address" placeholder="请填写" />
               </a-form-item>
-              <a-form-item label="学校" name="school">
+              <a-form-item
+                label="学校"
+                name="school"
+                :rules="[{ required: true, message: '请填写学校!' }]"
+              >
                 <a-input v-model:value="item.school" placeholder="请填写" />
               </a-form-item>
-              <a-form-item label="年龄" name="age">
+              <a-form-item
+                label="年龄"
+                name="age"
+                :rules="[{ required: true, message: '请填写年龄!' }]"
+              >
                 <a-input-number v-model:value="item.age" placeholder="请填写" />
               </a-form-item>
-              <a-form-item label="出生日期" name="birth">
+              <a-form-item
+                label="出生日期"
+                name="birth"
+                :rules="[{ required: true, message: '请填写出生日期!' }]"
+              >
                 <a-date-picker v-model:value="item.birth" />
               </a-form-item>
             </div>
@@ -84,20 +108,30 @@
 import { defineComponent, reactive } from 'vue'
 import { DeleteOutlined } from '@ant-design/icons-vue'
 import TimeRangeSelection from '@/components/time-range-selection/index.vue'
+import moment from 'moment'
 const langeListData = [
   { label: 'js', value: 1 },
   { label: 'java', value: 2 },
   { label: 'c', value: 3 }
 ]
 
-function genUserInfoItem() {
+type UserInfoItemType = {
+  names: string
+  sex: number
+  address: string
+  school: string
+  age: number
+  birth: moment.Moment | null
+}
+
+function genUserInfoItem(): UserInfoItemType {
   return {
     names: '',
     sex: 1,
     address: '',
     school: '',
     age: 24,
-    birth: ''
+    birth: null
   }
 }
 export default defineComponent({
@@ -110,7 +144,16 @@ export default defineComponent({
       platform: '',
       lang: 2,
       times: [],
-      userInfoList: [genUserInfoItem()]
+      userInfoList: [
+        {
+          names: '帅峰峰',
+          sex: 1,
+          address: '北京海定区',
+          school: '北京技术技术大学',
+          age: 24,
+          birth: moment('2015-01-01')
+        }
+      ] as UserInfoItemType[]
     })
     const rules = reactive({})
 

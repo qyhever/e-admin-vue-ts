@@ -221,7 +221,33 @@ export const basicRoutes: RouteRecordRaw[] = [
       {
         path: '/form/advancedForm',
         name: 'advancedForm',
-        component: () => import('@/views/form/advanced-form.vue')
+        component: () => import('@/views/form/advanced-form.vue'),
+        meta: {
+          title: '高级表单'
+        }
+      }
+    ]
+  },
+  {
+    path: '/charts',
+    name: 'charts',
+    component: BlankLayout,
+    children: [
+      {
+        path: '/charts/ordinary',
+        name: 'ordinary',
+        component: () => import('@/views/charts/ordinary.vue'),
+        meta: {
+          title: '普通图表'
+        }
+      },
+      {
+        path: '/charts/customize',
+        name: 'customize',
+        component: () => import('@/views/charts/customize.vue'),
+        meta: {
+          title: '自定义图表'
+        }
       }
     ]
   }

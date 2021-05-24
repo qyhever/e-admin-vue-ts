@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const dayjs = require('dayjs')
 const pkg = require('./package.json')
 const isDev = process.env.NODE_ENV === 'development'
@@ -57,10 +58,11 @@ module.exports = {
       patterns: [resolve('./src/assets/styles/var.less')]
     }
   },
-  // configureWebpack: {
-  //   plugins: [
-  //   ]
-  // },
+  configureWebpack: {
+    plugins: [
+      new webpack.IgnorePlugin(/^\.\/locale\/[^zh\-cn.js]$/, /moment$/)
+    ]
+  },
   chainWebpack(config) {
     config.plugins.delete('prefetch')
     config.plugins.delete('preload')

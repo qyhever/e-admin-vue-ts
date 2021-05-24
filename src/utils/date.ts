@@ -18,6 +18,15 @@ export const formatDateTime = (date: dayjs.ConfigType) => {
   return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
 }
 
-export function getMonthDay(year: number, month: number) {
-  return new Date(year, month + 1, 0).getDate()
+/**
+ * 获取上月开始和结束时间
+ * @return {Object} {start, end} 时间
+ */
+export function getPrevMonthDays() {
+  const startDate = new Date()
+  startDate.setMonth(startDate.getMonth() - 1)
+  const start = dayjs(startDate).date(1).format('YYYY-MM-DD') // 上月第一天
+  const endDate = new Date()
+  const end = dayjs(endDate).date(0).format('YYYY-MM-DD') // 上月最后一天（本月第一天的前一天）
+  return { start, end }
 }
