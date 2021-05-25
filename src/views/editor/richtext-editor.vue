@@ -21,6 +21,7 @@
           提交
         </a-button>
       </a-form-item>
+      <pre><div v-html="preview"></div></pre>
     </a-form>
   </div>
 </template>
@@ -77,10 +78,12 @@ export default defineComponent({
       ]
     })
 
+    const preview = ref('')
+
     onMounted(() => {
-      timer.value = window.setTimeout(() => {
-        form.content = 'Hello, tinymce!'
-      }, 1000)
+      // timer.value = window.setTimeout(() => {
+      //   form.content = ``
+      // }, 1000)
     })
 
     onBeforeUnmount(() => {
@@ -89,12 +92,14 @@ export default defineComponent({
 
     function onFinish(values: FormDataType) {
       console.log(values)
+      preview.value = values.content
     }
 
     return {
       form,
       rules,
-      onFinish
+      onFinish,
+      preview
     }
   }
 })

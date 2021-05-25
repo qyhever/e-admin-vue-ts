@@ -219,6 +219,14 @@ export const basicRoutes: RouteRecordRaw[] = [
     component: BlankLayout,
     children: [
       {
+        path: '/form/tableForm',
+        name: 'tableForm',
+        component: () => import('@/views/form/table-form.vue'),
+        meta: {
+          title: '表格表单'
+        }
+      },
+      {
         path: '/form/advancedForm',
         name: 'advancedForm',
         component: () => import('@/views/form/advanced-form.vue'),

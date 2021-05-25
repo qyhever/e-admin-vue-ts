@@ -1,5 +1,5 @@
 <template>
-  <a-row class="pie">
+  <a-row class="pie" :gutter="[15, 15]">
     <a-col :span="12">
       <div class="chart" ref="chartRef"></div>
     </a-col>
@@ -18,7 +18,9 @@
           ></div>
           <div class="content">
             <span class="name">{{ item.name }}</span>
+            <span class="line"></span>
             <span class="percent">{{ item.percent }}%</span>
+            <span>¥ {{ item.percent * 130 }}</span>
           </div>
         </li>
       </ul>
@@ -161,8 +163,8 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   margin-bottom: 8px;
-  font-size: 12px;
   cursor: pointer;
+  color: rgba(0, 0, 0, 0.65);
   &:last-child {
     margin-bottom: 0;
   }
@@ -181,11 +183,22 @@ export default defineComponent({
     margin-right: 10px;
   }
   .name {
-    margin: 0 5px;
+    // margin: 0 5px;
     color: #151d35;
   }
+  .line {
+    position: relative;
+    top: 0.18em;
+    display: inline-block;
+    height: 1.1em;
+    margin: 0 8px;
+    border-top: 0;
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+  }
   .percent {
-    color: #666;
+    display: inline-block;
+    width: 100px;
+    color: rgba(0, 0, 0, 0.45);
   }
 }
 </style>

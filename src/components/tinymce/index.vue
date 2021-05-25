@@ -116,8 +116,8 @@ export default defineComponent({
             hasChange.value = true
           })
           editor.on('NodeChange Change keyup', () => {
-            // const val = getBody(editor.getContent())
-            const val = editor.getBody().innerHTML
+            const val = editor.getContent()
+            // const val = editor.getBody().innerHTML
             emit('update:value', val)
             // self.dispatch('ElFormItem', 'el.form.change', [val])
           })

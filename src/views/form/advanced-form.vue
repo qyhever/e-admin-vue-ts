@@ -1,8 +1,14 @@
 <template>
   <div class="com-page p20">
-    <a-row :gutter="[10, 20]" type="flex">
-      <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
-        <a-form class="form" :model="form" :rules="rules" label-align="left">
+    <a-form
+      class="form"
+      :model="form"
+      :rules="rules"
+      label-align="left"
+      @finish="onFinish"
+    >
+      <a-row :gutter="[10, 20]" type="flex">
+        <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
           <a-form-item label="平台" name="platform">
             <a-input v-model:value="form.platform" placeholder="请填写" />
           </a-form-item>
@@ -39,14 +45,14 @@
               </div>
               <a-form-item
                 label="名字"
-                name="names"
+                :name="['userInfoList', index, 'names']"
                 :rules="[{ required: true, message: '请填写描述!' }]"
               >
                 <a-input v-model:value="item.names" placeholder="请填写" />
               </a-form-item>
               <a-form-item
                 label="性别"
-                name="sex"
+                :name="['userInfoList', index, 'sex']"
                 :rules="[{ required: true, message: '请选择性别!' }]"
               >
                 <a-radio-group v-model:value="item.sex">
@@ -56,51 +62,53 @@
               </a-form-item>
               <a-form-item
                 label="地址"
-                name="address"
+                :name="['userInfoList', index, 'address']"
                 :rules="[{ required: true, message: '请填写地址!' }]"
               >
                 <a-input v-model:value="item.address" placeholder="请填写" />
               </a-form-item>
               <a-form-item
                 label="学校"
-                name="school"
+                :name="['userInfoList', index, 'school']"
                 :rules="[{ required: true, message: '请填写学校!' }]"
               >
                 <a-input v-model:value="item.school" placeholder="请填写" />
               </a-form-item>
               <a-form-item
                 label="年龄"
-                name="age"
+                :name="['userInfoList', index, 'age']"
                 :rules="[{ required: true, message: '请填写年龄!' }]"
               >
                 <a-input-number v-model:value="item.age" placeholder="请填写" />
               </a-form-item>
               <a-form-item
                 label="出生日期"
-                name="birth"
+                :name="['userInfoList', index, 'birth']"
                 :rules="[{ required: true, message: '请填写出生日期!' }]"
               >
                 <a-date-picker v-model:value="item.birth" />
               </a-form-item>
             </div>
           </transition-group>
+          <a-form-item>
+            <a-row type="flex" align="middle" class="button-group">
+              <a-button type="danger" @click="onAddStep" class="mr8">
+                新增信息
+              </a-button>
+              <a-button type="primary" html-type="submit">提交信息</a-button>
+            </a-row>
+          </a-form-item>
+        </a-col>
+        <a-col :xs="24" :sm="24" :md="12" :lg="16" :xl="16">
           <a-row type="flex" align="middle" class="button-group">
             <a-button type="danger" @click="onAddStep" class="mr8">
               新增信息
             </a-button>
-            <a-button type="primary" @click="onSubmit">提交信息</a-button>
+            <a-button type="primary" html-type="submit">提交信息</a-button>
           </a-row>
-        </a-form>
-      </a-col>
-      <a-col :xs="24" :sm="24" :md="12" :lg="16" :xl="16">
-        <a-row type="flex" align="middle" class="button-group">
-          <a-button type="danger" @click="onAddStep" class="mr8">
-            新增信息
-          </a-button>
-          <a-button type="primary" @click="onSubmit">提交信息</a-button>
-        </a-row>
-      </a-col>
-    </a-row>
+        </a-col>
+      </a-row>
+    </a-form>
   </div>
 </template>
 
@@ -109,7 +117,7 @@ import { defineComponent, reactive } from 'vue'
 import { DeleteOutlined } from '@ant-design/icons-vue'
 import TimeRangeSelection from '@/components/time-range-selection/index.vue'
 import moment from 'moment'
-const langeListData = [
+const langListData = [
   { label: 'js', value: 1 },
   { label: 'java', value: 2 },
   { label: 'c', value: 3 }
@@ -157,7 +165,7 @@ export default defineComponent({
     })
     const rules = reactive({})
 
-    const langeList = reactive(langeListData)
+    const langeList = reactive(langListData)
 
     function onAddStep() {
       form.userInfoList.push(genUserInfoItem())
@@ -165,15 +173,24 @@ export default defineComponent({
     function onRemoveStep(index: number) {
       form.userInfoList.splice(index, 1)
     }
-    function onSubmit() {
-      console.log('onSubmit')
+    function onFinish() {
+      const userInfoList = form.userInfoList.map(item => {
+        const birth = item.birth?.format('YYYY-MM-DD')
+        return Object.assign({}, item, {
+          birth
+        })
+      })
+      const ret = Object.assign({}, form, {
+        userInfoList
+      })
+      alert(JSON.stringify(ret, null, 2))
     }
     return {
       form,
       rules,
       langeList,
       onAddStep,
-      onSubmit,
+      onFinish,
       onRemoveStep
     }
   }
