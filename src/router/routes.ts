@@ -233,6 +233,14 @@ export const basicRoutes: RouteRecordRaw[] = [
         meta: {
           title: '高级表单'
         }
+      },
+      {
+        path: '/form/findTemplate',
+        name: 'findTemplate',
+        component: () => import('@/views/form/query-template.vue'),
+        meta: {
+          title: '查询模板'
+        }
       }
     ]
   },

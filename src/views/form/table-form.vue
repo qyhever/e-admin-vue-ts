@@ -4,7 +4,10 @@
       <a-row :gutter="[15, 15]" type="flex" class="flex-wrap pb10">
         <a-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <a-form-item label="日期" name="date">
-            <TimeRangeSelection v-model:value="form.date"></TimeRangeSelection>
+            <TimeRangeSelection
+              v-model:value="form.date"
+              style="width: 100%"
+            ></TimeRangeSelection>
           </a-form-item>
         </a-col>
         <a-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -13,7 +16,7 @@
               v-model:value="form.lang"
               show-search
               option-filter-prop="children"
-              :filter-option="filterOption"
+              filter-option
             >
               <a-select-option
                 v-for="item in langeListOptions"
@@ -197,19 +200,13 @@ export default defineComponent({
       })
     }
 
-    function filterOption(input: string, option: any) {
-      console.log(option)
-      return langeListOptions.findIndex(v => v.label.indexOf(input) >= 0) >= 0
-    }
-
     return {
       formRef,
       form,
       columns,
       langeListOptions,
       onSubmit,
-      onImageClick,
-      filterOption
+      onImageClick
     }
   }
 })

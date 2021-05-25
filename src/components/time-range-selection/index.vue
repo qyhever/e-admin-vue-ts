@@ -4,6 +4,7 @@
     :value="value"
     @change="onChange"
     :ranges="ranges"
+    :style="style"
   />
 </template>
 
@@ -19,6 +20,10 @@ export default defineComponent({
     value: {
       type: Array,
       default: () => []
+    },
+    style: {
+      type: [Object, String],
+      default: ''
     }
   },
   setup(props, { emit }) {
