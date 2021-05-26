@@ -117,11 +117,7 @@ import { defineComponent, reactive } from 'vue'
 import { DeleteOutlined } from '@ant-design/icons-vue'
 import TimeRangeSelection from '@/components/time-range-selection/index.vue'
 import moment from 'moment'
-const langListData = [
-  { label: 'js', value: 1 },
-  { label: 'java', value: 2 },
-  { label: 'c', value: 3 }
-]
+import { enumLangList } from '@/utils/enum'
 
 type UserInfoItemType = {
   names: string
@@ -165,7 +161,7 @@ export default defineComponent({
     })
     const rules = reactive({})
 
-    const langeList = reactive(langListData)
+    const langeList = reactive(enumLangList)
 
     function onAddStep() {
       form.userInfoList.push(genUserInfoItem())

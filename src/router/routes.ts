@@ -95,6 +95,13 @@ export const basicRoutes: RouteRecordRaw[] = [
         meta: {
           title: '表格组件'
         }
+      },
+      {
+        path: '/component/hotkeys',
+        component: () => import('@/views/component/hotkeys/index.vue'),
+        meta: {
+          title: '按键监听'
+        }
       }
     ]
   },
@@ -241,6 +248,14 @@ export const basicRoutes: RouteRecordRaw[] = [
         meta: {
           title: '查询模板'
         }
+      },
+      {
+        path: '/form/basic',
+        name: 'basic',
+        component: () => import('@/views/form/basic.vue'),
+        meta: {
+          title: '基础模板'
+        }
       }
     ]
   },
@@ -266,6 +281,13 @@ export const basicRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/table',
+    component: () => import('@/views/user/index.vue'),
+    meta: {
+      title: '表格'
+    }
   }
 ]
 

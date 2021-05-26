@@ -5,11 +5,12 @@
     @change="onChange"
     :ranges="ranges"
     :style="style"
+    :placeholder="placeholder"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, PropType } from 'vue'
 import moment from 'moment'
 import { getPrevMonthDays } from '@/utils/date'
 
@@ -24,6 +25,10 @@ export default defineComponent({
     style: {
       type: [Object, String],
       default: ''
+    },
+    placeholder: {
+      type: Object as PropType<[string, string]>,
+      default: () => ['开始日期', '结束日期']
     }
   },
   setup(props, { emit }) {

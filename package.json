@@ -28,6 +28,7 @@
     "emojilib": "^3.0.2",
     "file-saver": "^2.0.5",
     "highlight.js": "^10.7.2",
+    "hotkeys-js": "^3.8.5",
     "js-base64": "^3.6.0",
     "jsoneditor": "^9.4.1",
     "jszip": "^3.6.0",
