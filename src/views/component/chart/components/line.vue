@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import { getOption } from './line-option'
-import useChartResize from '@/hooks/useChartResize'
+import { useChartResize } from '@/hooks'
 export default defineComponent({
   setup() {
     const chartRef = ref<HTMLDivElement | null>(null)
