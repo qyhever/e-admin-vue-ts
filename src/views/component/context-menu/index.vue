@@ -1,6 +1,7 @@
 <template>
   <div class="com-page p20">
     <div ref="container" class="container" @contextmenu="onContainerRightClick">
+      <div>content</div>
       <!-- <transition name="com-zoom-in-top">
         <div class="popup" v-show="visible" :style="{ top: top + 'px', left: left + 'px' }">popup</div>
       </transition> -->

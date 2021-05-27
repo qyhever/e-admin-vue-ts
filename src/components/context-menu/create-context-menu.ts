@@ -5,7 +5,7 @@ import ContextMenu from './index'
 import { CreateContextOptions, ContextMenuProps } from './types'
 
 export type ContextMenuInstance = {
-  open(opts: ContextMenuProps): void
+  open(): void
   close(): void
   destroy(): void
 }
@@ -34,26 +34,22 @@ function newInstance(options: ContextMenuProps, callback: (ins: ContextMenuInsta
     },
     mounted(this: ComponentPublicInstance) {
       const self = this // eslint-disable-line
-      this.$nextTick(() => {
-        callback({ // eslint-disable-line
-          open(opts: ContextMenuProps) {
-            self.props = {
-              ...self.props,
-              ...opts
-            }
-            ;(self.$refs as any).contextMenu.visible = true
-          },
-          close() {
-            ;(self.$refs as any).contextMenu.visible = false
-          },
-          destroy() {
-            app && app.unmount(div)
-            if (div.parentNode) {
-              div.parentNode.removeChild(div)
-            }
+      callback({ // eslint-disable-line
+        open() {
+          ;(self.$refs as any).contextMenu.sVisible = true
+        },
+        close() {
+          ;(self.$refs as any).contextMenu.sVisible = false
+        },
+        destroy() {
+          app && app.unmount(div)
+          if (div.parentNode) {
+            div.parentNode.removeChild(div)
           }
-        })
+        }
       })
+      // this.$nextTick(() => {
+      // })
     },
     render() {
       // const props = {

@@ -17,6 +17,7 @@ const Item: FunctionalComponent<ItemContentProps> = props => {
 
 export default defineComponent({
   name: 'ContextMenu',
+  inheritAttrs: false,
   props: {
     width: {
       type: Number,
@@ -33,12 +34,26 @@ export default defineComponent({
     menus: {
       type: Array as PropType<ContextMenuItem[]>,
       default: () => []
+    },
+    visible: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      visible: false
+      sVisible: this.visible
     }
+  },
+  watch: {
+    visible(newVal) {
+      this.sVisible = newVal
+    }
+  },
+  mounted() {
+    document.body.addEventListener('click', () => {
+      this.sVisible = false
+    })
   },
   methods: {
     handleAction(item: ContextMenuItem, e: MouseEvent) {
@@ -54,7 +69,7 @@ export default defineComponent({
   },
   render() {
     const self = this // eslint-disable-line
-    const { visible } = this
+    const { sVisible } = this
 
     function renderMenuItem(menus: ContextMenuItem[]) {
       return menus.map(item => {
@@ -80,19 +95,21 @@ export default defineComponent({
       })
     }
     return (
-      <Transition name="com-zoom-in-top" appear tag="div">
-        {visible && (
-          <Menu
-            class={`context-menu ${this.menuClass}`}
-            mode="vertical"
-            style={{
-              width: this.width + 'px',
-              top: this.position.y + 'px',
-              left: this.position.x + 'px'
-            }}
-          >
-            {renderMenuItem(this.menus)}
-          </Menu>
+      <Transition name="com-fade-in" appear>
+        {sVisible && (
+          <div>
+            <Menu
+              class={`context-menu ${this.menuClass}`}
+              mode="vertical"
+              style={{
+                width: this.width + 'px',
+                top: this.position.y + 'px',
+                left: this.position.x + 'px'
+              }}
+            >
+              {renderMenuItem(this.menus)}
+            </Menu>
+          </div>
         )}
       </Transition>
     )
