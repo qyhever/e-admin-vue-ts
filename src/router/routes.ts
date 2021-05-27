@@ -102,6 +102,13 @@ export const basicRoutes: RouteRecordRaw[] = [
         meta: {
           title: '按键监听'
         }
+      },
+      {
+        path: '/component/rightClickCompent',
+        component: () => import('@/views/component/context-menu/index.vue'),
+        meta: {
+          title: '右键组件'
+        }
       }
     ]
   },
