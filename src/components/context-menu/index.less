@@ -1,22 +1,11 @@
 .item-style() {
-  li {
-    display: inline-block;
+  .context-menu-item {
     width: 100%;
     margin: 0 !important;
-    // height: @default-height;
-    // line-height: @default-height;
-
-    span {
-      // line-height: @default-height;
-    }
-
-    > div {
-      margin: 0 !important;
-    }
 
     &:not(.ant-menu-item-disabled):hover {
-      // color: @text-color-base;
-      // background-color: @item-hover-bg;
+      color: @color-theme;
+      background-color: #e6f7ff;
     }
   }
 }
@@ -35,9 +24,4 @@
   .context-menu-popup {
     .item-style()
   }
-
-  // .ant-menu-submenu-title,
-  // .ant-menu-item {
-  //   padding: 0 !important;
-  // }
 }

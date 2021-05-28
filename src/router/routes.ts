@@ -109,6 +109,13 @@ export const basicRoutes: RouteRecordRaw[] = [
         meta: {
           title: '右键组件'
         }
+      },
+      {
+        path: '/component/editUploadImage',
+        component: () => import('@/views/component/image-cropper/index.vue'),
+        meta: {
+          title: '图片裁切'
+        }
       }
     ]
   },

@@ -32,6 +32,7 @@ import { UploadFile, VcFile, UploadChangeParam } from 'ant-design-vue/types/uplo
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { getRandomStr } from '@/utils'
 import imagePreview from '@/components/image/image-preview'
+import { uploadFile } from '@/api/global'
 export default defineComponent({
   emits: ['update:value', 'change', 'input'],
   components: {
@@ -54,6 +55,10 @@ export default defineComponent({
     mode: {
       type: String as PropType<'single' | 'multiple'>,
       default: 'single'
+    },
+    autoUpload: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -136,7 +141,7 @@ export default defineComponent({
         this.$message.error(`最大不能超过 ${this.limitSize}M !`)
         return false
       }
-      return true
+      return this.autoUpload
     },
     onRemove(file: UploadFile) {
       const ret = this.fileList.filter(v => v.uid !== file.uid).map(v => v.url) as string[]
@@ -148,6 +153,15 @@ export default defineComponent({
         urlList: this.fileList.map(v => v.url || (v.response && v.response.data && v.response.data.url) || v.thumbUrl),
         initialIndex: this.fileList.findIndex(v => v.uid === file.uid)
       })
+    },
+    // 手动上传，传递 autoUpload="false" 属性后，手动调用
+    manualUpload(file: File) {
+      uploadFile(file)
+        .then(res => {
+          const url = res.data.url
+          this.emitValue(this.value.concat(url))
+        })
+        .catch(console.log)
     }
   }
 })

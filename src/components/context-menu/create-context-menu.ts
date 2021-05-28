@@ -1,13 +1,17 @@
 import { h, createApp, ComponentPublicInstance } from 'vue'
 import { omit } from 'lodash'
 import ContextMenu from './index'
-// import ContextMenu from './context-menu.vue'
-import { CreateContextOptions, ContextMenuProps } from './types'
+import { CreateContextOptions, ContextMenuProps, Position } from './types'
 
 export type ContextMenuInstance = {
   open(): void
   close(): void
   destroy(): void
+}
+
+let position: Position = {
+  x: 0,
+  y: 0
 }
 
 // const defaultProps = {
@@ -26,7 +30,7 @@ function newInstance(options: ContextMenuProps, callback: (ins: ContextMenuInsta
   const app = createApp({
     data() {
       return {
-        props: {
+        appProps: {
           ...options,
           ref: 'contextMenu'
         }
@@ -36,7 +40,11 @@ function newInstance(options: ContextMenuProps, callback: (ins: ContextMenuInsta
       const self = this // eslint-disable-line
       callback({ // eslint-disable-line
         open() {
-          ;(self.$refs as any).contextMenu.sVisible = true
+          ;(self as any).appProps.position = position
+          ;(self.$refs as any).contextMenu.sVisible = false
+          setTimeout(() => {
+            ;(self.$refs as any).contextMenu.sVisible = true
+          }, 20)
         },
         close() {
           ;(self.$refs as any).contextMenu.sVisible = false
@@ -56,7 +64,7 @@ function newInstance(options: ContextMenuProps, callback: (ins: ContextMenuInsta
       //   ...options,
       //   ref: 'contextMenu'
       // }
-      return h(ContextMenu, this.props)
+      return h(ContextMenu, this.appProps)
     }
   })
   app.mount(div)
@@ -83,6 +91,10 @@ export default function createContextMenu(options: CreateContextOptions) {
     }
   })
   getInstance(props, ins => {
+    position = {
+      x: event.clientX,
+      y: event.clientY
+    }
     ins.open()
   })
 }

@@ -9,7 +9,7 @@ const Item: FunctionalComponent<ItemContentProps> = props => {
   const { item, handler } = props
   return (
     <div onClick={e => handler(item, e)}>
-      {!!item.icon && <SvgIcon icon={item.icon} />}
+      {!!item.icon && <SvgIcon class="mr8" name={item.icon} />}
       <span>{item.label}</span>
     </div>
   )
@@ -51,11 +51,15 @@ export default defineComponent({
     }
   },
   mounted() {
-    document.body.addEventListener('click', () => {
-      this.sVisible = false
-    })
+    document.body.addEventListener('click', this.hide)
+  },
+  unmounted() {
+    document.body.removeEventListener('click', this.hide)
   },
   methods: {
+    hide() {
+      this.sVisible = false
+    },
     handleAction(item: ContextMenuItem, e: MouseEvent) {
       const { handler, disabled } = item
       if (disabled) {
@@ -64,7 +68,8 @@ export default defineComponent({
       // showRef.value = false
       e.stopPropagation()
       e.preventDefault()
-      handler && handler()
+      handler && handler(item, e)
+      this.hide()
     }
   },
   render() {

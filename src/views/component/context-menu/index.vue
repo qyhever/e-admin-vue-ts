@@ -1,23 +1,44 @@
 <template>
   <div class="com-page p20">
-    <div ref="container" class="container" @contextmenu="onContainerRightClick">
-      <div>content</div>
-      <!-- <transition name="com-zoom-in-top">
-        <div class="popup" v-show="visible" :style="{ top: top + 'px', left: left + 'px' }">popup</div>
-      </transition> -->
-    </div>
+    <a-row type="flex" class="menu-container" align="middle" @contextmenu="onContainerRightClick">
+      <ComImage className="image" :src="logo" alt="logo" />
+      <h2 class="title">{{ data.title }}</h2>
+      <section class="font-size-16">{{ data.description }}</section>
+    </a-row>
+    <a-drawer title="编辑" :closable="false" v-model:visible="visible">
+      <a-form class="form" :model="form" @finish="onFinish">
+        <a-form-item label="标题" name="title" :rules="[{ required: true, message: '请填写' }]">
+          <a-input v-model:value="form.title" placeholder="请填写"></a-input>
+        </a-form-item>
+        <a-form-item label="描述" name="description">
+          <a-textarea v-model:value="form.description" placeholder="请填写" :autoSize="{ minRows: 2 }"></a-textarea>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" html-type="submit">修改</a-button>
+        </a-form-item>
+      </a-form>
+    </a-drawer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
+import { message } from 'ant-design-vue'
+import { cloneDeep } from 'lodash'
 import createContextMenu from '@/components/context-menu/create-context-menu'
+import logoImage from '@/assets/images/Icon_512x512-15@1x@1x.png'
+import { copy } from '@/utils'
+const defaultForm = {
+  title: 'ant-simple-pro',
+  description: '简洁，美观，快速上手，支持3大框架；Concise, beautiful, quick to get started, support 3 big frameworks'
+}
+
 export default defineComponent({
   setup() {
-    const container = ref<HTMLDivElement>()
+    const logo = ref(logoImage)
     const visible = ref(false)
-    const top = ref(0)
-    const left = ref(0)
+    const data = reactive(cloneDeep(defaultForm))
+    const form = reactive(cloneDeep(defaultForm))
 
     function onContainerRightClick(e: MouseEvent) {
       createContextMenu({
@@ -26,53 +47,51 @@ export default defineComponent({
           {
             label: '编辑',
             handler() {
-              console.log('edit')
+              visible.value = true
             }
           },
           {
             label: '复制标题',
-            handler() {
-              console.log('copy')
+            handler(item, event: MouseEvent) {
+              copy(form.title, event)
+              message.destroy()
+              message.success('复制成功，ctrl+v进行粘贴')
             }
           }
         ]
       })
     }
 
-    onMounted(() => {
-      // if (container.value) {
-      //   container.value.addEventListener('contextmenu', e => {
-      //     console.log(e)
-      //     top.value = e.clientY
-      //     left.value = e.clientX
-      //     e.preventDefault()
-      //     visible.value = true
-      //   })
-      //   container.value.addEventListener('click', () => {
-      //     visible.value = false
-      //   })
-      // }
-    })
+    function onFinish() {
+      visible.value = false
+      Object.assign(data, form)
+    }
+
     return {
-      container,
+      logo,
       visible,
-      top,
-      left,
-      onContainerRightClick
+      data,
+      form,
+      onContainerRightClick,
+      onFinish
     }
   }
 })
 </script>
 
 <style lang="less" scoped>
-.container {
-  height: 400px;
+.menu-container {
+  padding: 20px;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
 }
-.popup {
-  z-index: 99999;
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  border: 1px solid #eee;
+.image {
+  width: 120px;
+  height: 120px;
+}
+.title {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 700;
 }
 </style>
