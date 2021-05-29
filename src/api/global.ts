@@ -12,7 +12,7 @@ export function getAccessMenus() {
   })
 }
 
-export function uploadFile(file: File) {
+export function uploadFile(file: File | Blob) {
   const fd = new FormData()
   fd.append('file', file)
   return request({
