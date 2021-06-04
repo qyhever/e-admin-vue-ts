@@ -25,7 +25,7 @@
     "cropperjs": "^1.5.11",
     "dayjs": "^1.9.7",
     "echarts": "^4.9.0",
-    "emoji-datasource": "^6.1.1",
+    "emoji-datasource": "^5.0.1",
     "emojilib": "^3.0.2",
     "file-saver": "^2.0.5",
     "highlight.js": "^10.7.2",
@@ -50,6 +50,8 @@
     "vue-i18n": "^9.0.0-beta.8",
     "vue-router": "^4.0.0-beta.13",
     "vue-types": "^3.0.0",
+    "vue3-virtual-scroller": "^0.2.1",
+    "vuedraggable": "^4.0.1",
     "vuex": "^4.0.0-beta.4",
     "vuex-module-decorators": "^1.0.1",
     "xlsx": "^0.16.9"
