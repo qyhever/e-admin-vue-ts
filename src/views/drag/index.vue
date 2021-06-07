@@ -269,6 +269,7 @@ export default defineComponent({
 }
 .grid-container ::v-deep .vue-grid-item {
   padding: 10px;
+  overflow: hidden;
   &:hover {
     border: 2px solid #06c;
   }
